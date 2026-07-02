@@ -1,0 +1,20 @@
+layout {
+  gaps 15
+  always-center-single-column
+  empty-workspace-above-first
+
+  // border {
+  //   width 2
+  // }
+
+  focus-ring {
+    width 4
+    active-gradient from="#7fffd4" to="#0095ff" angle=45
+    // active-gradient from="#5bcefa" to="#f5a9b8" angle=135
+  }
+}
+
+window-rule {
+  geometry-corner-radius 24
+  clip-to-geometry true
+}

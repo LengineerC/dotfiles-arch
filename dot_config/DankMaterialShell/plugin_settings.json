@@ -1,0 +1,36 @@
+{
+  "emojiLauncher": {
+    "enabled": true,
+    "recentEmojis": "👍,😐"
+  },
+  "calculator": {
+    "enabled": true,
+    "trigger": "="
+  },
+  "systemMonitorPlus": {
+    "enabled": true,
+    "cpuTempEnabled": true,
+    "ramUsageEnabled": true,
+    "gpuTempEnabled": true,
+    "cpuUsageVisualStyle": "gauge",
+    "cpuUsageColorizeText": false,
+    "gpuTempColorizeText": false,
+    "ramUsageColorizeText": false,
+    "ramUsageNormalColorKey": "primary",
+    "ramUsageVisualStyle": "gauge",
+    "cpuTempVisualStyle": "default",
+    "gpuTempShowIcon": true,
+    "gpuTempVisualStyle": "default",
+    "ramUsageTextMode": "percentage",
+    "resourceOrder": "cpuUsage,cpuTemp,ramUsage,gpuTemp"
+  },
+  "dankDesktopWeather": {
+    "enabled": true
+  },
+  "networkIndicator": {
+    "enabled": true
+  },
+  "timer": {
+    "enabled": true
+  }
+}
