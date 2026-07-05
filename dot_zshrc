@@ -157,6 +157,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 
 # chezmoi
 alias cma="~/Scripts/chezmoi-add.sh"
+alias cmp="~/Scripts/chezmoi-push.sh"
 
 # Android SDK
 export ANDROID_HOME=$HOME/Android/Sdk
