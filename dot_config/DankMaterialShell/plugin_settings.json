@@ -32,5 +32,24 @@
   },
   "timer": {
     "enabled": true
+  },
+  "fullscreenPowerMenu": {
+    "enabled": true
+  },
+  "linuxWallpaperEngine": {
+    "enabled": false,
+    "outputSettings": {
+      "DP-2": {
+        "fps": 30
+      },
+      "*": {
+        "fps": 29
+      }
+    },
+    "monitorScenes": {
+      "DP-2": "2394043899",
+      "*": "2394043899"
+    },
+    "activeType": "scene"
   }
 }

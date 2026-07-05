@@ -294,4 +294,6 @@ binds {
     Mod+Alt+C { spawn "dms" "color" "pick" "-a"; }
     // rgb取色器
     Mod+Alt+Shift+C { spawn "dms" "color" "pick" "--rgb" "-a" "-o" "rgb({0}, {1}, {2})"; }
+
+    Mod+Delete { spawn "dms" "ipc" "call" "fullscreenPowerMenu" "toggle"; }
 }

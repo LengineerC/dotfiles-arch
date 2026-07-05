@@ -7,7 +7,7 @@ HUGEPAGES_NUM=8192
 # 虚拟机名称
 VM_NAME="win11"
 
-LOOP_TIMES=3
+LOOP_TIMES=5
 
 if [ "$EUID" -ne 0 ]; then
   echo "必须使用sudo运行脚本！"

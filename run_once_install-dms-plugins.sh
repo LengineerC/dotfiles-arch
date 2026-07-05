@@ -1,5 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
-dms plugins install systemMonitorPlus
-dms plugins install Calculator
-dms plugins install emojiLauncher
+plugins=(
+  "systemMonitorPlus"
+  "Calculator"
+  "emojiLauncher"
+  "fullscreenPowerMenu"
+)
+
+echo "Installing dms plugins..."
+
+for p in "${plugins[@]}"; do
+  dms plugins install "$p"
+done
+
+echo "Done."
