@@ -8,7 +8,7 @@ sources=(
   ".config/niri"
   ".local/share/fcitx5/pinyin/dictionaries"
   "Applications/DankMaterialShell/quickshell"
-  "Documents/easyeffects"
+  "Applications/easyeffects"
   "Scripts"
   ".config/kitty"
   ".config/nvim"
