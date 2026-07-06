@@ -11,6 +11,7 @@ sources=(
   "Documents/easyeffects"
   "Scripts"
   ".config/kitty"
+  ".config/nvim"
 )
 
 for src in "${sources[@]}"; do
