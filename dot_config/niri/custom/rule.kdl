@@ -1,4 +1,5 @@
 window-rule {
   match app-id=r#"wps$"#
+  match app-id="XnView"
   open-floating true
 }
