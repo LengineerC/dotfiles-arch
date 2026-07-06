@@ -14,8 +14,30 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+stop_samba() {
+  echo ">>> [SMB] 停止 Samba 服务..."
+
+  if systemctl is-active --quiet smb 2>/dev/null && systemctl is-active --quiet nmb 2>/dev/null; then
+    systemctl stop smb 2>/dev/null || true
+    systemctl stop nmb 2>/dev/null || true
+  fi
+
+  echo ">>> [SMB] Samba 已停止"
+}
+
+start_samba() {
+  echo ">>> [SMB] 开启 Samba 服务..."
+
+  if ! (systemctl is-active --quiet smb 2>/dev/null && systemctl is-active --quiet nmb); then
+    systemctl start smb 2>/dev/null || true
+    systemctl start nmb 2>/dev/null || true
+  fi
+
+  echo ">>> [SMB] Samba 已开启"
+}
+
 start_passthrough() {
-  echo ">>> [1/4] 清理 NVIDIA 进程并卸载驱动模块..."
+  echo ">>> [1/5] 清理 NVIDIA 进程并卸载驱动模块..."
   UNLOAD_SUCCESS=false
 
   for ((i = 1; i <= LOOP_TIMES; i++)); do
@@ -55,24 +77,27 @@ start_passthrough() {
     exit 1
   fi
 
-  echo ">>> [2/4] 从宿主机解绑原生驱动..."
+  echo ">>> [2/5] 从宿主机解绑原生驱动..."
   echo "$VGA_PCI" | tee /sys/bus/pci/drivers/nvidia/unbind
   echo "$AUDIO_PCI" | tee /sys/bus/pci/drivers/snd_hda_intel/unbind
 
-  echo ">>> [3/4] 绑定显卡至 vfio-pci 驱动..."
+  echo ">>> [3/5] 绑定显卡至 vfio-pci 驱动..."
   modprobe vfio-pci
   echo "vfio-pci" | tee /sys/bus/pci/devices/$VGA_PCI/driver_override
   echo "vfio-pci" | tee /sys/bus/pci/devices/$AUDIO_PCI/driver_override
   echo "$VGA_PCI" | tee /sys/bus/pci/drivers_probe
   echo "$AUDIO_PCI" | tee /sys/bus/pci/drivers_probe
 
-  echo ">>> [4/4] 整理内存碎片并分配大页 (2MB) ..."
+  echo ">>> [4/5] 整理内存碎片并分配大页 (2MB) ..."
   sync
   echo 3 | tee /proc/sys/vm/drop_caches
   echo 1 | tee /proc/sys/vm/compact_memory
   sysctl -w vm.nr_hugepages=$HUGEPAGES_NUM >/dev/null
 
   lspci -k -s "$VGA_PCI" | grep -A 2 -i nvidia
+
+  echo ">>> [5/5] 开启Samba"
+  start_samba
 
   if lspci -k -s "$VGA_PCI" | grep -q "Kernel driver in use: vfio-pci"; then
     echo "----------------------------------------"
@@ -82,6 +107,7 @@ start_passthrough() {
     echo "----------------------------------------"
     echo "❌ 警告：设备未能成功绑定到 vfio-pci，请检查系统日志(dmesg)！"
   fi
+
 }
 
 stop_passthrough() {
@@ -103,27 +129,29 @@ stop_passthrough() {
     exit 0
   fi
   # ------------------------------
+  echo ">>> [1/6] 关闭Samba"
+  stop_samba
 
-  echo ">>> [1/5] 清除 VFIO 驱动覆盖并解绑..."
+  echo ">>> [2/6] 清除 VFIO 驱动覆盖并解绑..."
   echo "" | tee /sys/bus/pci/devices/$VGA_PCI/driver_override
   echo "" | tee /sys/bus/pci/devices/$AUDIO_PCI/driver_override
   echo "$VGA_PCI" | tee /sys/bus/pci/drivers/vfio-pci/unbind
   echo "$AUDIO_PCI" | tee /sys/bus/pci/drivers/vfio-pci/unbind
 
-  echo ">>> [2/5] 重新加载 NVIDIA 内核模块..."
+  echo ">>> [3/6] 重新加载 NVIDIA 内核模块..."
   modprobe nvidia
   modprobe nvidia_drm
   modprobe nvidia_modeset
   modprobe nvidia_uvm
 
-  echo ">>> [3/5] 重新探测设备并激活显卡..."
+  echo ">>> [4/6] 重新探测设备并激活显卡..."
   echo "$VGA_PCI" | tee /sys/bus/pci/drivers_probe
   echo "$AUDIO_PCI" | tee /sys/bus/pci/drivers_probe
 
-  echo ">>> [4/5] 释放内存大页归还宿主机..."
+  echo ">>> [5/6] 释放内存大页归还宿主机..."
   sysctl -w vm.nr_hugepages=0
 
-  echo ">>> [5/5] 验证 NVIDIA 原生驱动恢复状态..."
+  echo ">>> [6/6] 验证 NVIDIA 原生驱动恢复状态..."
   lspci -k -s "$VGA_PCI" | grep -A 2 -i nvidia
 
   if lspci -k -s "$VGA_PCI" | grep -q "Kernel driver in use: nvidia"; then

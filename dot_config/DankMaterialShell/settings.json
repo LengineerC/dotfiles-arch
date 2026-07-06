@@ -140,7 +140,7 @@
   "showWorkspaceName": false,
   "showWorkspacePadding": false,
   "workspaceScrolling": false,
-  "showWorkspaceApps": true,
+  "showWorkspaceApps": false,
   "workspaceDragReorder": true,
   "maxWorkspaceIcons": 3,
   "workspaceAppIconSizeOffset": 0,
