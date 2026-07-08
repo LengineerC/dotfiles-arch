@@ -130,8 +130,8 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 export PATH="$HOME/.local/bin:$PATH"
 
 # KVM显卡直通和内存大页切换
-alias vfio-start="sudo ~/Scripts/kvm-passthrough.sh start"
-alias vfio-stop="sudo ~/Scripts/kvm-passthrough.sh stop"
+alias vfio-start="sudo $HOME/.local/bin/kvm-passthrough start"
+alias vfio-stop="sudo $HOME/.local/bin/kvm-passthrough stop"
 
 function proxy() {
   local port="${1:-7890}"
@@ -156,8 +156,8 @@ alias nv="nvim"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 
 # chezmoi
-alias cma="~/Scripts/chezmoi-add.sh"
-alias cmp="~/Scripts/chezmoi-push.sh"
+# alias cma="~/Scripts/chezmoi-add.sh"
+# alias cmp="~/Scripts/chezmoi-push.sh"
 
 # Android SDK
 export ANDROID_HOME=$HOME/Android/Sdk
