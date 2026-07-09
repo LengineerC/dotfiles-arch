@@ -9,6 +9,12 @@ BasePill {
     backgroundStyle: "striped"
 
     stripeColor1: "#f5a9b8"
+    stripeAnimation: true
+    stripeWidth: 19
+    stripeAnimationSpeed: 20
+    stripeOpacity: 0.8
+    stripeEdgeBlurEnabled: true
+    stripeEdgeBlurAmount: 0.5
 
     property var widgetData: null
     property bool compactMode: false

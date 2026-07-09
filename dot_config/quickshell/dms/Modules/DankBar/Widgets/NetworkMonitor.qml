@@ -74,7 +74,7 @@ BasePill {
             Row {
                 id: contentRow
                 anchors.centerIn: parent
-                spacing: Theme.spacingS
+                spacing: Theme.spacingS / 2
                 visible: !root.isVerticalOrientation
 
                 DankIcon {

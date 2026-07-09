@@ -342,7 +342,7 @@
   "lockScreenShowPasswordField": true,
   "lockScreenShowMediaPlayer": true,
   "lockScreenPowerOffMonitorsOnLock": false,
-  "lockAtStartup": true,
+  "lockAtStartup": false,
   "enableFprint": false,
   "maxFprintTries": 15,
   "enableU2f": false,

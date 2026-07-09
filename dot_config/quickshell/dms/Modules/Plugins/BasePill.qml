@@ -46,10 +46,16 @@ Item {
     property string backgroundStyle: "default"
     property color stripeColor1: Theme.primary
     property color stripeColor2: Theme.secondary
-    property real stripeOpacity: 0.18
-    property int stripeWidth: 12
+    property real stripeOpacity: 0.2
+    property int stripeWidth: 21
     property int stripeSpacing: 30
-    property real stripeAngle: 45
+    property real stripeAngle: 30
+    property bool stripeAnimation: false
+    property real stripeAnimationSpeed: 40
+    property bool stripeEdgeBlurEnabled: false
+    // 0-1
+    property real stripeEdgeBlurAmount: 0.4
+
     property color solidColor: Theme.primary
     property real solidOpacity: 1
 
@@ -109,123 +115,114 @@ Item {
             }
         }
 
-	Item {
-	    anchors.fill: parent
-
-    	    layer.enabled: true
-    	    layer.samples: 8
-
-    	    layer.effect: MultiEffect {
-    	        shadowEnabled: true
-    	        shadowBlur: 0.75
-
-    	        shadowColor: Qt.rgba(0, 0, 0, 0.40)
-
-    	        shadowVerticalOffset: 3
-    	        shadowHorizontalOffset: 1
-
-    	        autoPaddingEnabled: true
-    	    }
+        Item {
+            anchors.fill: parent
 
             Rectangle {
                 id: background
                 anchors.fill: parent
+
+                layer.enabled: true
+                layer.samples: 8
+                layer.effect: MultiEffect {
+                    shadowEnabled: true
+                    shadowBlur: 0.5
+                    shadowColor: Qt.rgba(0, 0, 0, 0.40)
+                    shadowVerticalOffset: 3
+                    shadowHorizontalOffset: 1
+                    autoPaddingEnabled: true
+                }
+
                 radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
-                // color: {
-                //     if (barConfig?.noBackground ?? false) {
-                //         return "transparent";
-                //     }
 
-                //     const rawTransparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
-                //     const isHovered = root.enableBackgroundHover && (mouseArea.containsMouse || (root.isHovered || false));
-                //     const transparency = isHovered ? Math.max(0.3, rawTransparency) : rawTransparency;
-                //     const baseColor = isHovered ? BlurService.hoverColor(Theme.widgetBaseHoverColor) : Theme.widgetBaseBackgroundColor;
+                color: {
+                    if (barConfig?.noBackground ?? false)
+                        return "transparent";
+                
+                    if (root.backgroundStyle === "solid") {
+                        const c = Qt.color(root.solidColor)
+                        return Qt.rgba(c.r, c.g, c.b, root.solidOpacity)
+                    }
+                
+                    const rawTransparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
+                    const isHovered = root.enableBackgroundHover && (mouseArea.containsMouse || (root.isHovered || false));
+                    const transparency = isHovered ? Math.max(0.3, rawTransparency) : rawTransparency;
+                    const baseColor = isHovered ? BlurService.hoverColor(Theme.widgetBaseHoverColor) : Theme.widgetBaseBackgroundColor;
+                
+                    if (Theme.widgetBackgroundHasAlpha) {
+                        return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * transparency);
+                    }
+                    return Theme.withAlpha(baseColor, transparency);
+                }
 
-                //     if (Theme.widgetBackgroundHasAlpha) {
-                //         return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * transparency);
-                //     }
-                //     return Theme.withAlpha(baseColor, transparency);
-                // }
-		color: {
-		    if (barConfig?.noBackground ?? false)
-		        return "transparent";
-		
-		    // solid 模式
-		    if (root.backgroundStyle === "solid") {
-			const c = Qt.color(root.solidColor)
-			return Qt.rgba(c.r, c.g, c.b, root.solidOpacity)
-		    }
-		
-		    // striped 模式底层透明
-		    // if (root.backgroundStyle === "striped")
-		    //     return "transparent";
-		
-		    // default
-		    const rawTransparency =
-		        (root.barConfig && root.barConfig.widgetTransparency !== undefined)
-		            ? root.barConfig.widgetTransparency
-		            : 1.0;
-		
-		    const isHovered =
-		        root.enableBackgroundHover &&
-		        (mouseArea.containsMouse || (root.isHovered || false));
-		
-		    const transparency =
-		        isHovered ? Math.max(0.3, rawTransparency) : rawTransparency;
-		
-		    const baseColor =
-		        isHovered
-		        ? BlurService.hoverColor(Theme.widgetBaseHoverColor)
-		        : Theme.widgetBaseBackgroundColor;
-		
-		    if (Theme.widgetBackgroundHasAlpha) {
-		        return Qt.rgba(
-		            baseColor.r,
-		            baseColor.g,
-		            baseColor.b,
-		            baseColor.a * transparency
-		        );
-		    }
-		
-		    return Theme.withAlpha(baseColor, transparency);
-		}
+                Rectangle {
+                    id: stripeBackground
+                    anchors.fill: parent
+                    visible: root.backgroundStyle === "striped"
+                    radius: background.radius
+                    color: "transparent"
+
+                    layer.enabled: true
+                    layer.samples: 8
+                    layer.effect: MultiEffect {
+                        maskEnabled: stripeBackground.radius > 0
+                        maskSource: stripeMask
+                    }
+
+                    Rectangle {
+                        id: stripeMask
+                        anchors.fill: parent
+                        radius: stripeBackground.radius
+                        color: "black"        
+                        visible: false        
+                        layer.enabled: true   
+                    }
+
+                    Item {
+                        id: stripeContainer
+                        width: parent.width * 2
+                        height: parent.height
+                        x: 0
+
+                        Repeater {
+                            model: Math.ceil((stripeContainer.width + stripeContainer.height) / root.stripeSpacing) + 10
+
+                            Rectangle {
+                                id: individualStripe
+                                width: root.stripeWidth
+                                height: stripeContainer.height * 5
+                                rotation: root.stripeAngle
+                                x: index * root.stripeSpacing - stripeContainer.height
+                                y: -(height - stripeContainer.height) / 2
+                                color: index % 2 ? root.stripeColor1 : root.stripeColor2
+                                opacity: root.stripeOpacity
+
+                                layer.enabled: root.stripeEdgeBlurEnabled
+                                layer.samples: 8
+                                layer.effect: MultiEffect {
+                                    blurEnabled: true
+                                    blur: root.stripeEdgeBlurAmount
+                                    blurMax: 64
+                                    
+                                    autoPaddingEnabled: true 
+                                }
+                            }
+                        }
+
+                        NumberAnimation {
+                            id: stripeAnimation
+                            target: stripeContainer
+                            property: "x"
+                            from: 0
+                            to: -root.stripeSpacing * 2
+                            duration: 1000 * (root.stripeSpacing * 2) / root.stripeAnimationSpeed
+                            loops: Animation.Infinite
+                            running: root.stripeAnimation
+                        }
+                    }
+                }
             }
-	}
-
-	Rectangle {
-	    id: stripeLayer
-	
-	    anchors.fill: parent
-	
-	    visible: root.backgroundStyle === "striped"
-	
-	    radius: background.radius
-	    color: "transparent"
-	
-	    clip: true
-	
-	    Repeater {
-	        model: Math.ceil((stripeLayer.width + stripeLayer.height)
-	                         / root.stripeSpacing) + 6
-	
-	        Rectangle {
-	
-	            width: root.stripeWidth
-	            height: stripeLayer.height * 5
-	
-	            rotation: root.stripeAngle
-	
-	            x: index * root.stripeSpacing - stripeLayer.height
-	            y: -(height - stripeLayer.height ) / 2
-	
-	            color: index % 2
-	                   ? root.stripeColor1
-	                   : root.stripeColor2
-	
-	            opacity: root.stripeOpacity
-	        }
-	    }
-	}
+        }
 
         DankRipple {
             id: rippleLayer
@@ -259,7 +256,6 @@ Item {
             const ripplePos = mouseArea.mapToItem(visualContent, mouse.x, mouse.y);
             rippleLayer.trigger(ripplePos.x, ripplePos.y);
             if (popoutTarget) {
-                // Ensure bar context is set first if supported
                 if (popoutTarget.setBarContext) {
                     const pos = root.axis?.edge === "left" ? 2 : (root.axis?.edge === "right" ? 3 : (root.axis?.edge === "top" ? 0 : 1));
                     const bottomGap = root.barConfig ? (root.barConfig.bottomGap !== undefined ? root.barConfig.bottomGap : 0) : 0;

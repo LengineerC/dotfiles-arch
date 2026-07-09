@@ -7,8 +7,10 @@ import qs.Widgets
 BasePill {
     id: root
     backgroundStyle: "striped"
-
+    stripeOpacity: 0.75
     stripeColor1: "#f5a9b8"
+    stripeEdgeBlurEnabled: true
+    stripeEdgeBlurAmount: 1
 
     visible: SettingsData.weatherEnabled
 
