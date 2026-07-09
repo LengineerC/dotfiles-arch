@@ -1,9 +1,9 @@
 {
-  "currentThemeName": "blue",
-  "currentThemeCategory": "generic",
+  "currentThemeName": "dynamic",
+  "currentThemeCategory": "dynamic",
   "customThemeFile": "/home/lengineerc/.config/DankMaterialShell/themes/nord/theme.json",
   "registryThemeVariants": {},
-  "matugenScheme": "scheme-tonal-spot",
+  "matugenScheme": "scheme-vibrant",
   "runUserMatugenTemplates": true,
   "matugenTargetMonitor": "",
   "popupTransparency": 1,
@@ -275,7 +275,7 @@
   "audioOutputDevicePins": {},
   "gtkThemingEnabled": false,
   "qtThemingEnabled": false,
-  "syncModeWithPortal": false,
+  "syncModeWithPortal": true,
   "terminalsAlwaysDark": true,
   "muxType": "tmux",
   "muxUseCustomCommand": false,
@@ -527,7 +527,7 @@
       "innerPadding": 2,
       "bottomGap": -3,
       "transparency": 0,
-      "widgetTransparency": 0.93,
+      "widgetTransparency": 0.9,
       "squareCorners": true,
       "noBackground": false,
       "gothCornersEnabled": false,
@@ -634,7 +634,46 @@
   "systemMonitorVariants": [],
   "desktopWidgetPositions": {},
   "desktopWidgetGridSettings": {},
-  "desktopWidgetInstances": [],
+  "desktopWidgetInstances": [
+    {
+      "id": "dw_1783588460242_2bedt2jkj",
+      "widgetType": "systemMonitor",
+      "name": "系统监视器",
+      "enabled": false,
+      "config": {
+        "showHeader": true,
+        "transparency": 0.8,
+        "colorMode": "primary",
+        "customColor": "#ffffff",
+        "showCpu": true,
+        "showCpuGraph": true,
+        "showCpuTemp": true,
+        "showGpuTemp": false,
+        "gpuPciId": "",
+        "showMemory": true,
+        "showMemoryGraph": true,
+        "showNetwork": true,
+        "showNetworkGraph": true,
+        "showDisk": true,
+        "showTopProcesses": false,
+        "topProcessCount": 3,
+        "topProcessSortBy": "cpu",
+        "layoutMode": "auto",
+        "graphInterval": 60,
+        "displayPreferences": [
+          "all"
+        ]
+      },
+      "positions": {
+        "G27H2Max": {
+          "width": 493.91015625,
+          "height": 307.0703125,
+          "x": 1481.8203125,
+          "y": 777.015625
+        }
+      }
+    }
+  ],
   "desktopWidgetGroups": [],
   "builtInPluginSettings": {
     "dms_settings_search": {

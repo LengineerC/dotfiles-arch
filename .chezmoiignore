@@ -1,3 +1,8 @@
+**/.claude
+**/.vscode
+**/.idea
+**/.git
+
 **/.config/quickshell/dms/assets
 **/.config/quickshell/dms/translations
 **/.config/DankMaterialShell/plugins

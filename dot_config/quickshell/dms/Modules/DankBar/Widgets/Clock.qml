@@ -8,11 +8,11 @@ BasePill {
     id: root
     backgroundStyle: "striped"
 
-    stripeColor1: "#f5a9b8"
     stripeAnimation: true
-    stripeWidth: 19
-    stripeAnimationSpeed: 20
-    stripeOpacity: 0.8
+    stripeWidth: 40
+    stripeSpacing: 40
+    stripeAnimationSpeed: 17
+    stripeOpacity: 0.7
     stripeEdgeBlurEnabled: true
     stripeEdgeBlurAmount: 0.5
 
@@ -48,7 +48,7 @@ BasePill {
                             return String(display).padStart(2, '0').charAt(0);
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
 
                         color: Theme.widgetTextColor
                         width: Math.round(font.pixelSize * 0.6)
@@ -64,7 +64,7 @@ BasePill {
                             const display = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
                             return String(display).padStart(2, '0').charAt(1);
                         }
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
                         color: Theme.widgetTextColor
                         width: Math.round(font.pixelSize * 0.6)
@@ -81,7 +81,7 @@ BasePill {
                         text: String(systemClock?.date?.getMinutes()).padStart(2, '0').charAt(0)
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
 
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
@@ -91,7 +91,7 @@ BasePill {
                     StyledText {
                         text: String(systemClock?.date?.getMinutes()).padStart(2, '0').charAt(1)
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
@@ -107,7 +107,7 @@ BasePill {
                     StyledText {
                         text: String(systemClock?.date?.getSeconds()).padStart(2, '0').charAt(0)
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
@@ -117,7 +117,7 @@ BasePill {
                     StyledText {
                         text: String(systemClock?.date?.getSeconds()).padStart(2, '0').charAt(1)
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
@@ -153,7 +153,7 @@ BasePill {
                             return value.charAt(0);
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
                         color: Theme.primary
                         width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
@@ -169,7 +169,7 @@ BasePill {
                             return value.charAt(1);
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
                         color: Theme.primary
                         width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
@@ -192,7 +192,7 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
                         color: Theme.primary
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
                         width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
@@ -207,7 +207,7 @@ BasePill {
                             return value.charAt(1);
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
-			font.weight: Font.Bold
+			            font.weight: Font.Bold
                         color: Theme.primary
                         width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
@@ -251,7 +251,7 @@ BasePill {
                         visible: clockRow.hoursStr.length > 1
                         text: clockRow.hoursStr.charAt(0)
                         font.pixelSize: clockRow.fontSize + 1
-			font.weight: Font.Bold
+			        font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: clockRow.digitWidth
                         horizontalAlignment: Text.AlignHCenter
@@ -260,7 +260,7 @@ BasePill {
                     StyledText {
                         text: clockRow.hoursStr.length > 1 ? clockRow.hoursStr.charAt(1) : clockRow.hoursStr.charAt(0)
                         font.pixelSize: clockRow.fontSize + 1
-			font.weight: Font.Bold
+			        font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: clockRow.digitWidth
                         horizontalAlignment: Text.AlignHCenter
@@ -269,14 +269,14 @@ BasePill {
                     StyledText {
                         text: ":"
                         font.pixelSize: clockRow.fontSize + 1
-			font.weight: Font.Bold
+			        font.weight: Font.Bold
                         color: Theme.widgetTextColor
                     }
 
                     StyledText {
                         text: clockRow.minutesStr.charAt(0)
                         font.pixelSize: clockRow.fontSize + 1
-			font.weight: Font.Bold
+			        font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: clockRow.digitWidth
                         horizontalAlignment: Text.AlignHCenter
@@ -285,7 +285,7 @@ BasePill {
                     StyledText {
                         text: clockRow.minutesStr.charAt(1)
                         font.pixelSize: clockRow.fontSize + 1
-			font.weight: Font.Bold
+			        font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: clockRow.digitWidth
                         horizontalAlignment: Text.AlignHCenter
@@ -295,7 +295,7 @@ BasePill {
                         visible: SettingsData.showSeconds
                         text: ":"
                         font.pixelSize: clockRow.fontSize + 1
-			font.weight: Font.Bold
+			        font.weight: Font.Bold
                         color: Theme.widgetTextColor
                     }
 
@@ -303,7 +303,7 @@ BasePill {
                         visible: SettingsData.showSeconds
                         text: clockRow.secondsStr.charAt(0)
                         font.pixelSize: clockRow.fontSize + 1
-			font.weight: Font.Bold
+			        font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: clockRow.digitWidth
                         horizontalAlignment: Text.AlignHCenter
@@ -313,7 +313,7 @@ BasePill {
                         visible: SettingsData.showSeconds
                         text: clockRow.secondsStr.charAt(1)
                         font.pixelSize: clockRow.fontSize + 1
-			font.weight: Font.Bold
+			        font.weight: Font.Bold
                         color: Theme.widgetTextColor
                         width: clockRow.digitWidth
                         horizontalAlignment: Text.AlignHCenter
@@ -323,7 +323,7 @@ BasePill {
                         visible: !SettingsData.use24HourClock
                         text: clockRow.ampmStr
                         font.pixelSize: clockRow.fontSize + 1
-			font.weight: Font.Bold
+			        font.weight: Font.Bold
                         color: Theme.widgetTextColor
                     }
                 }
@@ -332,7 +332,7 @@ BasePill {
                     id: middleDot
                     text: "•"
                     font.pixelSize: Theme.fontSizeSmall
-		    font.weight: Font.Bold
+		            font.weight: Font.Bold
                     color: Theme.outlineButton
                     anchors.verticalCenter: parent.verticalCenter
                     visible: !compact
@@ -347,7 +347,7 @@ BasePill {
                         return systemClock?.date?.toLocaleDateString(Qt.locale("en_US"), "ddd d");
                     }
                     font.pixelSize: clockRow.fontSize + 1
-		    font.weight: Font.Bold
+		            font.weight: Font.Bold
                     color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     visible: !compact

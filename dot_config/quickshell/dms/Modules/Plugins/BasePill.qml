@@ -72,6 +72,8 @@ Item {
     height: isVerticalOrientation ? visualHeight : barThickness
 
     Item {
+        readonly property real borderWidth: (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0
+        
         id: visualContent
         width: root.visualWidth
         height: root.visualHeight
@@ -79,6 +81,7 @@ Item {
 
         Rectangle {
             id: outline
+            antialiasing: true
             anchors.centerIn: parent
             width: {
                 const borderWidth = (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0;
@@ -88,7 +91,8 @@ Item {
                 const borderWidth = (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0;
                 return parent.height + borderWidth * 2;
             }
-            radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
+            // radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
+            radius: (barConfig?.noBackground ?? false) ? 0 : (Theme.cornerRadius > 0 ? Theme.cornerRadius + borderWidth : 0)
             color: "transparent"
             border.width: {
                 if (barConfig?.widgetOutlineEnabled ?? false) {
@@ -115,13 +119,125 @@ Item {
             }
         }
 
+        // Item {
+        //     anchors.fill: parent
+
+        //     Rectangle {
+        //         id: background
+        //         anchors.fill: parent
+        //         antialiasing: true
+        //         layer.enabled: true
+        //         layer.samples: 8
+        //         layer.effect: MultiEffect {
+        //             shadowEnabled: true
+        //             shadowBlur: 0.5
+        //             shadowColor: Qt.rgba(0, 0, 0, 0.40)
+        //             shadowVerticalOffset: 3
+        //             shadowHorizontalOffset: 1
+        //             autoPaddingEnabled: true
+        //         }
+
+        //         radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
+
+        //         color: {
+        //             if (barConfig?.noBackground ?? false)
+        //                 return "transparent";
+                
+        //             if (root.backgroundStyle === "solid") {
+        //                 const c = Qt.color(root.solidColor)
+        //                 return Qt.rgba(c.r, c.g, c.b, root.solidOpacity)
+        //             }
+                
+        //             const rawTransparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
+        //             const isHovered = root.enableBackgroundHover && (mouseArea.containsMouse || (root.isHovered || false));
+        //             const transparency = isHovered ? Math.max(0.3, rawTransparency) : rawTransparency;
+        //             const baseColor = isHovered ? BlurService.hoverColor(Theme.widgetBaseHoverColor) : Theme.widgetBaseBackgroundColor;
+                
+        //             if (Theme.widgetBackgroundHasAlpha) {
+        //                 return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * transparency);
+        //             }
+        //             return Theme.withAlpha(baseColor, transparency);
+        //         }
+
+        //         Rectangle {
+        //             id: stripeBackground
+        //             anchors.fill: parent
+        //             visible: root.backgroundStyle === "striped"
+        //             radius: background.radius
+        //             color: "transparent"
+        //             antialiasing: true
+        //             layer.enabled: true
+        //             layer.samples: 8
+        //             layer.effect: MultiEffect {
+        //                 maskEnabled: stripeBackground.radius > 0
+        //                 maskSource: stripeMask
+        //             }
+
+        //             Rectangle {
+        //                 antialiasing: true
+        //                 id: stripeMask
+        //                 anchors.fill: parent
+        //                 radius: stripeBackground.radius
+        //                 color: "black"        
+        //                 visible: false        
+        //                 layer.enabled: true
+        //                 layer.samples: 8
+        //             }
+
+        //             Item {
+        //                 id: stripeContainer
+        //                 width: parent.width * 2
+        //                 height: parent.height
+        //                 x: 0
+                        
+        //                 Repeater {
+        //                     model: Math.ceil((stripeContainer.width + stripeContainer.height) / root.stripeSpacing) + 10
+
+        //                     Rectangle {
+        //                         id: individualStripe
+        //                         width: root.stripeWidth
+        //                         height: stripeContainer.height * 5
+        //                         rotation: root.stripeAngle
+        //                         x: index * root.stripeSpacing - stripeContainer.height
+        //                         y: -(height - stripeContainer.height) / 2
+        //                         color: index % 2 ? root.stripeColor1 : root.stripeColor2
+        //                         opacity: root.stripeOpacity
+
+        //                         layer.enabled: root.stripeEdgeBlurEnabled
+        //                         layer.samples: 8
+        //                         layer.effect: MultiEffect {
+        //                             blurEnabled: true
+        //                             blur: root.stripeEdgeBlurAmount
+        //                             blurMax: 64
+                                    
+        //                             autoPaddingEnabled: true 
+        //                         }
+        //                     }
+        //                 }
+
+        //                 NumberAnimation {
+        //                     id: stripeAnimation
+        //                     target: stripeContainer
+        //                     property: "x"
+        //                     from: 0
+        //                     to: -root.stripeSpacing * 2
+        //                     duration: 1000 * (root.stripeSpacing * 2) / root.stripeAnimationSpeed
+        //                     loops: Animation.Infinite
+        //                     running: root.stripeAnimation
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
         Item {
             anchors.fill: parent
 
+            // 1. 底层：只负责绘制基础背景色和阴影
             Rectangle {
                 id: background
                 anchors.fill: parent
-
+                antialiasing: true
                 layer.enabled: true
                 layer.samples: 8
                 layer.effect: MultiEffect {
@@ -132,93 +248,95 @@ Item {
                     shadowHorizontalOffset: 1
                     autoPaddingEnabled: true
                 }
-
                 radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
-
                 color: {
-                    if (barConfig?.noBackground ?? false)
-                        return "transparent";
-                
+                    if (barConfig?.noBackground ?? false) return "transparent";
                     if (root.backgroundStyle === "solid") {
                         const c = Qt.color(root.solidColor)
                         return Qt.rgba(c.r, c.g, c.b, root.solidOpacity)
+                    } else if(root.backgroundStyle === "striped") {
+                        const c = Qt.color(root.solidColor)
+                        return Qt.rgba(c.r, c.g, c.b, root.stripeOpacity)
                     }
-                
                     const rawTransparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
                     const isHovered = root.enableBackgroundHover && (mouseArea.containsMouse || (root.isHovered || false));
                     const transparency = isHovered ? Math.max(0.3, rawTransparency) : rawTransparency;
                     const baseColor = isHovered ? BlurService.hoverColor(Theme.widgetBaseHoverColor) : Theme.widgetBaseBackgroundColor;
-                
-                    if (Theme.widgetBackgroundHasAlpha) {
-                        return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * transparency);
-                    }
+                    if (Theme.widgetBackgroundHasAlpha) return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * transparency);
                     return Theme.withAlpha(baseColor, transparency);
+                }
+            }
+
+            // 2. 条纹层：与 background 平级
+            Rectangle {
+                id: stripeBackground
+                anchors.fill: parent
+                visible: root.backgroundStyle === "striped"
+                radius: background.radius
+                color: "transparent"
+                antialiasing: true
+                layer.enabled: true
+                layer.samples: 8
+                layer.effect: MultiEffect {
+                    maskEnabled: stripeBackground.radius > 0
+                    maskSource: stripeMask
+                    
+                    maskThresholdMin: 0.5
+                    // 1.0 表示在边缘像素上开启完全平滑的混合过渡，彻底消灭狗牙
+                    maskSpreadAtMin: 1.0
                 }
 
                 Rectangle {
-                    id: stripeBackground
-                    anchors.fill: parent
-                    visible: root.backgroundStyle === "striped"
-                    radius: background.radius
-                    color: "transparent"
-
+                    id: stripeMask
+                    anchors.fill: parent // 恢复 1:1 填满，不再需要 margin 缩进
+                    radius: stripeBackground.radius
+                    color: "black"        
+                    visible: false        
+                    antialiasing: true
+                    
                     layer.enabled: true
-                    layer.samples: 8
-                    layer.effect: MultiEffect {
-                        maskEnabled: stripeBackground.radius > 0
-                        maskSource: stripeMask
-                    }
+                    layer.smooth: true
+                    layer.samples: 8 // 渲染出高精度、平滑的圆角遮罩纹理
+                }
 
-                    Rectangle {
-                        id: stripeMask
-                        anchors.fill: parent
-                        radius: stripeBackground.radius
-                        color: "black"        
-                        visible: false        
-                        layer.enabled: true   
-                    }
+                Item {
+                    id: stripeContainer
+                    width: parent.width * 2
+                    height: parent.height
+                    x: 0
+                    
+                    Repeater {
+                        model: Math.ceil((stripeContainer.width + stripeContainer.height) / root.stripeSpacing) + 10
+                        Rectangle {
+                            id: individualStripe
+                            width: root.stripeWidth
+                            height: stripeContainer.height * 5
+                            rotation: root.stripeAngle
+                            x: index * root.stripeSpacing - stripeContainer.height
+                            y: -(height - stripeContainer.height) / 2
+                            color: index % 2 ? root.stripeColor1 : root.stripeColor2
+                            opacity: root.stripeOpacity
 
-                    Item {
-                        id: stripeContainer
-                        width: parent.width * 2
-                        height: parent.height
-                        x: 0
-
-                        Repeater {
-                            model: Math.ceil((stripeContainer.width + stripeContainer.height) / root.stripeSpacing) + 10
-
-                            Rectangle {
-                                id: individualStripe
-                                width: root.stripeWidth
-                                height: stripeContainer.height * 5
-                                rotation: root.stripeAngle
-                                x: index * root.stripeSpacing - stripeContainer.height
-                                y: -(height - stripeContainer.height) / 2
-                                color: index % 2 ? root.stripeColor1 : root.stripeColor2
-                                opacity: root.stripeOpacity
-
-                                layer.enabled: root.stripeEdgeBlurEnabled
-                                layer.samples: 8
-                                layer.effect: MultiEffect {
-                                    blurEnabled: true
-                                    blur: root.stripeEdgeBlurAmount
-                                    blurMax: 64
-                                    
-                                    autoPaddingEnabled: true 
-                                }
+                            layer.enabled: root.stripeEdgeBlurEnabled
+                            layer.samples: 8
+                            layer.effect: MultiEffect {
+                                blurEnabled: true
+                                blur: root.stripeEdgeBlurAmount
+                                blurMax: 64
+                                autoPaddingEnabled: true 
                             }
                         }
+                    }
 
-                        NumberAnimation {
-                            id: stripeAnimation
-                            target: stripeContainer
-                            property: "x"
-                            from: 0
-                            to: -root.stripeSpacing * 2
-                            duration: 1000 * (root.stripeSpacing * 2) / root.stripeAnimationSpeed
-                            loops: Animation.Infinite
-                            running: root.stripeAnimation
-                        }
+                    NumberAnimation {
+                        id: stripeAnimation
+                        target: stripeContainer
+                        property: "x"
+                        from: 0
+                        to: -root.stripeSpacing * 2
+                        duration: 1000 * (root.stripeSpacing * 2) / root.stripeAnimationSpeed
+                        loops: Animation.Infinite
+                        running: root.stripeAnimation
                     }
                 }
             }
