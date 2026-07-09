@@ -7,7 +7,7 @@ sources=(
   ".config/DankMaterialShell"
   ".config/niri"
   ".local/share/fcitx5/pinyin/dictionaries"
-  "Applications/DankMaterialShell/quickshell"
+  ".config/quickshell/dms"
   "Applications/easyeffects"
   "Scripts"
   ".config/kitty"
