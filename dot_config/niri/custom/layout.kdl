@@ -8,7 +8,7 @@ layout {
   // }
 
   focus-ring {
-    width 4
+    width 2
     active-gradient from="#ff0000aa" to="#00ff00ee" angle=-135 in="oklch longer hue"
   }
 }

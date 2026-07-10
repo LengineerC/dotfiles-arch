@@ -11,6 +11,7 @@ sources=(
   "Applications/easyeffects"
   "Scripts"
   ".config/kitty"
+  ".config/fastfetch"
   ".config/nvim"
   ".local/bin/chezmoi-add"
   ".local/bin/chezmoi-push"

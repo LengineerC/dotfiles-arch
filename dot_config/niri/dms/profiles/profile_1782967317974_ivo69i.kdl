@@ -2,19 +2,18 @@
 
 output "BOE NE156QHM-NY1 Unknown" {
     off
-    mode "2560x1440@165.000"
-    scale 1.25
+    scale 1
     position x=0 y=0
-}
-
-output "HKC OVERSEAS LIMITED G27H2Max 0000000000001" {
-    mode "2560x1440@200.000"
-    scale 1.25
-    position x=2048 y=0
 }
 
 output "DP-9" {
     mode "2560x1440@144.000"
+    scale 1.25
+    position x=2048 y=0
+}
+
+output "HKC OVERSEAS LIMITED G27H2Max 0000000000001" {
+    mode "2560x1440@200.000"
     scale 1.25
     position x=2048 y=0
 }

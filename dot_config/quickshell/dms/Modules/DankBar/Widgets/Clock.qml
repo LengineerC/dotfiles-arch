@@ -14,7 +14,7 @@ BasePill {
     stripeAnimationSpeed: 17
     stripeOpacity: 0.7
     stripeEdgeBlurEnabled: true
-    stripeEdgeBlurAmount: 0.5
+    stripeEdgeBlurAmount: 0.3
 
     property var widgetData: null
     property bool compactMode: false
