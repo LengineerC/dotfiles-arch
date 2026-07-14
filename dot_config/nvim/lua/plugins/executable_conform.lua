@@ -17,7 +17,7 @@ return {
       typescriptreact = { "prettier" },
       json = { "prettier" },
       css = { "prettier" },
-      markdown = { "prettier" },
+      -- markdown = { "prettier" },
       java = { "google-java-format" },
       python = { "black" },
       sh = { "shfmt" },

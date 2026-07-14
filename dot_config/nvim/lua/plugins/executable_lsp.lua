@@ -14,29 +14,24 @@ return {
     ft = "cs",
     opts = {
       cmd = {
-        vim.fn.stdpath("data") .. "/mason/bin/omnisharp.cmd",
+        vim.fn.stdpath("data") .. "/mason/bin/OmniSharp",
         "--languageserver",
         "--hostPID",
         tostring(vim.fn.getpid()),
       },
-      enable_editorconfig_support = false,
-      FormattingOptions = {
-        EnableEditorConfigSupport = false,
-        OrganizeImports = true,
+
+      enable_editorconfig_support = true,
+
+      settings = {
+        FormattingOptions = {
+          EnableEditorConfigSupport = true,
+          OrganizeImports = true,
+        },
       },
     },
+
     config = function(_, opts)
       require("lspconfig").omnisharp.setup(opts)
-
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          if client and client.name == "omnisharp" then
-            client.server_capabilities.documentFormattingProvider = true
-            client.server_capabilities.documentRangeFormattingProvider = true
-          end
-        end,
-      })
     end,
   },
   {
@@ -47,7 +42,7 @@ return {
 
       -- Mason 安装路径
       local jdtls_cmd = {
-        vim.fn.stdpath("data") .. "/mason/bin/jdtls.cmd",
+        vim.fn.stdpath("data") .. "/mason/bin/jdtls",
         "--jvm-arg=-Dorg.eclipse.jdt.core.formatter.settings=file:///D:/jdks/java-style.xml",
         "--jvm-arg=-Dorg.eclipse.jdt.core.formatter.profile=Default",
       }
