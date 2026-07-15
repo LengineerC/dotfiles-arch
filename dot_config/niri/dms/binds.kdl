@@ -212,7 +212,7 @@ binds {
     // 电源菜单 (Super+X)
     Super+X hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
     // 壁纸选择器 (Mod+Y，作为 Mod+Alt+W 的备用)
-    Mod+Y hotkey-overlay-title="Browse Wallpapers" { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
+    // Mod+Y hotkey-overlay-title="Browse Wallpapers" { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
     // 剪贴板
     Mod+Alt+V hotkey-overlay-title="剪贴板 Clipboard" {spawn "dms" "ipc" "call" "clipboard" "toggle";} 
     // 记事本

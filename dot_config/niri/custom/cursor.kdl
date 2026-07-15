@@ -1,4 +1,30 @@
 cursor {
+    // Set the XCursor theme. The cursor theme is loaded from
+    // ~/.local/share/icons or /usr/share/icons.
     xcursor-theme "Bibata-Modern-Amber"
     xcursor-size 20
+
+    // Hide the cursor after this many milliseconds of inactivity.
+    hide-after-inactive-ms 15000
+
+    // Shake-to-enlarge: rapidly move the mouse back and forth to enlarge the cursor.
+    shake-to-enlarge {
+        // Uncomment to disable shake-to-enlarge.
+        off
+
+        // How much the cursor enlarges (multiplier).
+        zoom-factor 5
+
+        // Shake speed threshold. Higher = less sensitive.
+        threshold 2000
+
+        // How long the enlarged cursor stays big after shaking stops, in milliseconds.
+        hold-duration-ms 300
+
+        // Uncomment to make the cursor gradually grow larger while continuously shaking.
+        // grow
+
+        // Growth speed when grow is enabled.
+        grow-speed 0.01
+    }
 }
