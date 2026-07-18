@@ -13,6 +13,7 @@ sources=(
   ".config/kitty"
   ".config/fastfetch"
   ".config/nvim"
+  ".config/neovide"
   ".local/bin/chezmoi-add"
   ".local/bin/chezmoi-push"
   ".local/bin/kvm-passthrough"
