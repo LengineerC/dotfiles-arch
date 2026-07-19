@@ -7,6 +7,11 @@ window-rule {
 }
 
 window-rule {
+    match app-id="com.danklinux.dms" title="系统监视器"
+    open-floating true
+}
+
+window-rule {
     match app-id="neovide"
     match app-id="code"
     match app-id="firefox"
