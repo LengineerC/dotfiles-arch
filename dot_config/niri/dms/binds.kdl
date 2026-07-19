@@ -197,7 +197,7 @@ binds {
     // Shift+Print  hotkey-overlay-title=null { spawn-sh "niri msg action screenshot-screen --show-pointer false && pkill -f -USR1 screenshot-sound.sh"; }
 
     // dms 
-    Mod+Alt+A  hotkey-overlay-title="选取区域截图 Select screenshot"  {spawn-sh "dms screenshot && pkill -f -USR1 screenshot-sound.sh";}
+    Mod+Alt+A  hotkey-overlay-title="选取区域截图 Select screenshot"  { spawn-sh "dms screenshot && pkill -f -USR1 screenshot-sound.sh"; }
     Mod+Alt+Ctrl+A  hotkey-overlay-title="截取聚焦窗口 Focus-window screenshot" { spawn-sh "dms screenshot window && pkill -f -USR1 screenshot-sound.sh"; }
     Mod+Alt+Ctrl+Shift+A  hotkey-overlay-title="截取显示器 Monitor screenshot" { spawn-sh "dms screenshot full && pkill -f -USR1 screenshot-sound.sh"; }
     Mod+Ctrl+Alt+S hotkey-overlay-title="dms滚动截图" { spawn-sh "dms screenshot scroll && pkill -f -USR1 screenshot-sound.sh"; }

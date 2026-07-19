@@ -1,7 +1,7 @@
 window-rule {
     match app-id=r#"wps$"#
     match app-id="XnView"
-    match app-id="com.danklinux.dms" title="设置"
+    match app-id="com.danklinux.dms"
 
     open-floating true
 }

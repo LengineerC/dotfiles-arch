@@ -242,8 +242,8 @@ BasePill {
                     anchors.verticalCenter: parent.verticalCenter
                     elide: Text.ElideRight
                     maximumLineCount: 1
-                    width: Math.min(implicitWidth, compactMode ? 80 : 180)
-                    visible: !compactMode && text.length > 0
+                    width: Math.min(implicitWidth, compactMode ? 180 : 80)
+                    visible: text.length > 0
                 }
 
                 StyledText {
@@ -281,8 +281,8 @@ BasePill {
                     anchors.verticalCenter: parent.verticalCenter
                     elide: Text.ElideRight
                     maximumLineCount: 1
-                    width: Math.min(implicitWidth, compactMode ? 280 : 250)
-                    visible: text.length > 0
+                    width: Math.min(implicitWidth, compactMode ? 250 : 200)
+                    visible: !compactMode && text.length > 0
                 }
             }
         }
