@@ -470,7 +470,7 @@
         {
           "id": "focusedWindow",
           "enabled": true,
-          "focusedWindowCompactMode": false
+          "focusedWindowCompactMode": true
         }
       ],
       "centerWidgets": [

@@ -11,6 +11,25 @@ import qs.Widgets
 Item {
     id: root
 
+    function toRoman(num) {
+        if (num <= 0 || num > 3999) return num.toString();
+        
+        const lookup = {
+            M: 1000, CM: 900, D: 500, CD: 400,
+            C: 100, XC: 90, L: 50, XL: 40,
+            X: 10, IX: 9, V: 5, IV: 4, I: 1
+        };
+        
+        let roman = "";
+        for (let i in lookup) {
+            while (num >= lookup[i]) {
+                roman += i;
+                num -= lookup[i];
+            }
+        }
+        return roman;
+    }
+
     property bool isVertical: axis?.isVertical ?? false
     property var axis: null
     property string screenName: ""
@@ -20,6 +39,9 @@ Item {
     property var blurBarWindow: null
     property var hyprlandOverviewLoader: null
     property var parentScreen: null
+
+    property bool useCustomStyle: true
+    property bool useRoman: true
 
     readonly property real _leftMargin: {
         if (isVertical)
@@ -952,7 +974,7 @@ Item {
 
         x: isVertical ? visualBackground.x : (parent.width - implicitWidth) / 2
         y: isVertical ? (parent.height - implicitHeight) / 2 : visualBackground.y
-        spacing: Theme.spacingS
+        spacing: root.useCustomStyle ? 2 : Theme.spacingS
         flow: isVertical ? Flow.TopToBottom : Flow.LeftToRight
 
         Repeater {
@@ -1121,13 +1143,18 @@ Item {
                     return (SettingsData.groupWorkspaceApps && !isActive) ? groupedCount : totalCount;
                 }
 
-                readonly property real baseWidth: root.isVertical ? (SettingsData.showWorkspaceApps ? Math.max(widgetHeight * 0.7, root.appIconSize + Theme.spacingXS * 2) : widgetHeight * 0.5) : (isActive ? Math.max(root.widgetHeight * 1.05, root.appIconSize * 1.6) : Math.max(root.widgetHeight * 0.7, root.appIconSize * 1.2))
-                readonly property real baseHeight: root.isVertical ? (isActive ? Math.max(root.widgetHeight * 1.05, root.appIconSize * 1.6) : Math.max(root.widgetHeight * 0.7, root.appIconSize * 1.2)) : (SettingsData.showWorkspaceApps ? Math.max(widgetHeight * 0.7, root.appIconSize + Theme.spacingXS * 2) : widgetHeight * 0.5)
+                readonly property real baseWidth: root.useCustomStyle ? (root.widgetHeight * 0.7) : (root.isVertical ? (SettingsData.showWorkspaceApps ? Math.max(widgetHeight * 0.7, root.appIconSize + Theme.spacingXS * 2) : widgetHeight * 0.5) : (isActive ? Math.max(root.widgetHeight * 1.05, root.appIconSize * 1.6) : Math.max(root.widgetHeight * 0.7, root.appIconSize * 1.2)))
+                readonly property real baseHeight: root.useCustomStyle ? (root.widgetHeight * 0.7) : (root.isVertical ? (isActive ? Math.max(root.widgetHeight * 1.05, root.appIconSize * 1.6) : Math.max(root.widgetHeight * 0.7, root.appIconSize * 1.2)) : (SettingsData.showWorkspaceApps ? Math.max(widgetHeight * 0.7, root.appIconSize + Theme.spacingXS * 2) : widgetHeight * 0.5))
                 readonly property bool hasWorkspaceName: SettingsData.showWorkspaceName && modelData?.name && modelData.name !== ""
                 readonly property bool workspaceNamesEnabled: SettingsData.showWorkspaceName && (CompositorService.isNiri || CompositorService.isSway || CompositorService.isScroll || CompositorService.isMiracle)
                 readonly property real contentImplicitWidth: appIconsLoader.item?.contentWidth ?? 0
                 readonly property real contentImplicitHeight: appIconsLoader.item?.contentHeight ?? 0
-
+                
+                // 罗马数字宽度定长
+                readonly property real fixedRomanWidth: {
+                    return 34; 
+                }
+                
                 readonly property real iconsExtraWidth: {
                     if (!root.isVertical && SettingsData.showWorkspaceApps && stableIconCount > 0) {
                         const numIcons = Math.min(stableIconCount, SettingsData.maxWorkspaceIcons);
@@ -1143,16 +1170,27 @@ Item {
                     return 0;
                 }
 
+                // readonly property real visualWidth: {
+                //     if (contentImplicitWidth <= 0)
+                //         return baseWidth + iconsExtraWidth;
+                //     const padding = root.useCustomStyle ? (root.useRoman ? 8 : 3) : (root.isVertical ? Theme.spacingXS : Theme.spacingS);
+                //     return Math.max(baseWidth + iconsExtraWidth, contentImplicitWidth + padding);
+                // }
+
                 readonly property real visualWidth: {
+                    if (root.useCustomStyle && root.useRoman) {
+                        return fixedRomanWidth + iconsExtraWidth;
+                    }
                     if (contentImplicitWidth <= 0)
                         return baseWidth + iconsExtraWidth;
-                    const padding = root.isVertical ? Theme.spacingXS : Theme.spacingS;
+                    const padding = root.useCustomStyle ? 3 : (root.isVertical ? Theme.spacingXS : Theme.spacingS);
                     return Math.max(baseWidth + iconsExtraWidth, contentImplicitWidth + padding);
                 }
+
                 readonly property real visualHeight: {
                     if (contentImplicitHeight <= 0)
                         return baseHeight + iconsExtraHeight;
-                    const padding = root.isVertical ? Theme.spacingS : Theme.spacingXS;
+                    const padding = root.useCustomStyle ? (root.useRoman ? 5 : 3) : (root.isVertical ? Theme.spacingS : Theme.spacingXS);
                     return Math.max(baseHeight + iconsExtraHeight, contentImplicitHeight + padding);
                 }
 
@@ -1473,12 +1511,30 @@ Item {
                     height: delegateRoot.visualHeight
                     x: root.isVertical ? (root.widgetHeight - width) / 2 : (parent.width - width) / 2
                     y: root.isVertical ? (parent.height - height) / 2 : (root.widgetHeight - height) / 2
-                    radius: Theme.cornerRadius
-                    color: isActive ? activeColor : isUrgent ? urgentColor : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.withAlpha(unfocusedColor, 0.7) : isOccupied ? occupiedColor : unfocusedColor
-                    opacity: dragHandler.dragging ? 0.8 : 1.0
+                    radius: root.useCustomStyle ? Theme.cornerRadius / 1.5 : Theme.cornerRadius
+                    color: {
+                        if(root.useCustomStyle) return "transparent";
 
-                    border.width: dragHandler.dragging ? 2 : (isUrgent ? 2 : (isDropTarget ? 2 : 0))
-                    border.color: dragHandler.dragging ? Theme.primary : (isUrgent ? urgentColor : (isDropTarget ? Theme.primary : "transparent"))
+                        if (root.useCustomStyle && !isActive && !isUrgent) {
+                            return "transparent";
+                        }
+                        return isActive ? activeColor : isUrgent ? urgentColor : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.withAlpha(unfocusedColor, 0.7) : isOccupied ? occupiedColor : unfocusedColor
+                    }
+                    opacity: root.useCustomStyle ? (dragHandler.dragging ? 0.6 : 0.8) : (dragHandler.dragging ? 0.8 : 1.0)
+
+                    // border.width: dragHandler.dragging ? 2 : (isUrgent ? 2 : (isDropTarget ? 2 : 0))
+                    // border.color: dragHandler.dragging ? Theme.primary : (isUrgent ? urgentColor : (isDropTarget ? Theme.primary : "transparent"))
+
+                    border.width: {
+                        if(root.useCustomStyle) {
+                            return isActive ? 2 : (isUrgent ? 2 : (isDropTarget ? 1 : 0));
+                        } else return isUrgent ? 2 : (isDropTarget ? 2 : 0);
+                    }
+                    border.color: {
+                        if(root.useCustomStyle) {
+                            return isActive ? Theme.primary : (isUrgent ? urgentColor : (isDropTarget ? Theme.secondary : "transparent"));
+                        } else return isUrgent ? urgentColor : (isDropTarget ? Theme.primary : "transparent");
+                    }
 
                     transform: Translate {
                         x: root.isVertical ? 0 : (dragHandler.dragging ? dragHandler.dragAxisOffset : 0)
@@ -1530,7 +1586,7 @@ Item {
                     Loader {
                         id: appIconsLoader
                         anchors.fill: parent
-                        active: SettingsData.showWorkspaceApps || SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName || loadedHasIcon
+                        active: root.useCustomStyle || SettingsData.showWorkspaceApps || SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName || loadedHasIcon
                         sourceComponent: Item {
                             id: contentRoot
                             readonly property real contentWidth: contentRow.item?.implicitWidth ?? 0
@@ -1546,7 +1602,7 @@ Item {
                                 id: rowLayout
                                 Row {
                                     spacing: 4
-                                    visible: loadedIcons.length > 0 || SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName || loadedHasIcon
+                                    visible: root.useCustomStyle || loadedIcons.length > 0 || SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName || loadedHasIcon
 
                                     Item {
                                         visible: loadedHasIcon && loadedIconData?.type === "icon"
@@ -1558,7 +1614,12 @@ Item {
                                             anchors.verticalCenter: parent.verticalCenter
                                             name: loadedIconData?.value ?? ""
                                             size: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText)
-                                            color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
+                                            color: {
+                                                if (root.useCustomStyle && !isActive && !isUrgent) {
+                                                    return Theme.withAlpha(Theme.surfaceText, 0.75);
+                                                }
+                                                return (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
+                                            }
                                             weight: (isActive && !isPlaceholder) ? 500 : 400
                                         }
                                     }
@@ -1571,25 +1632,48 @@ Item {
                                         StyledText {
                                             id: wsText
                                             anchors.verticalCenter: parent.verticalCenter
+                                            verticalAlignment: Text.AlignVCenter
+                                            horizontalAlignment: Text.AlignHCenter
                                             text: loadedIconData?.value ?? ""
-                                            color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
-                                            font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText)
-                                            font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
+                                            color: {
+                                                if (root.useCustomStyle && !isActive && !isUrgent && !isHovered) {
+                                                    return Theme.withAlpha(Theme.widgetTextColor, 0.75);
+                                                }
+                                                if (root.useCustomStyle && !isActive && !isUrgent && isHovered) {
+                                                    return Theme.withAlpha(Theme.widgetTextColor, 0.85);
+                                                }
+                                                return (isActive || isUrgent) ? Qt.rgba(Theme.widgetTextColor.r, Theme.widgetTextColor.g, Theme.widgetTextColor.b, 0.95) : isPlaceholder ? Theme.widgetTextColorAplha : Theme.widgetTextMedium
+                                            }
+                                            font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText) - 2
+                                            font.weight: (isActive && !isPlaceholder) ? Font.ExtraBold : Font.Normal
                                         }
                                     }
 
                                     Item {
-                                        visible: ((SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName) && !loadedHasIcon) || (loadedHasIcon && SettingsData.showWorkspaceName && hasWorkspaceName)
+                                        visible: root.useCustomStyle || (((SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName) && !loadedHasIcon) || (loadedHasIcon && SettingsData.showWorkspaceName && hasWorkspaceName))
                                         width: wsIndexText.implicitWidth
                                         height: root.appIconSize
 
                                         StyledText {
                                             id: wsIndexText
                                             anchors.verticalCenter: parent.verticalCenter
-                                            text: loadedHasIcon ? (modelData?.name ?? "") : root.getWorkspaceIndex(modelData, index)
-                                            color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
-                                            font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText)
-                                            font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
+                                            verticalAlignment: Text.AlignVCenter
+                                            horizontalAlignment: Text.AlignHCenter
+                                            // anchors.verticalCenterOffset: root.useCustomStyle ? 1 : 0
+                                            text: root.useCustomStyle ?
+                                                    root.useRoman ? root.toRoman(root.getWorkspaceIndexFallback(modelData, index)) : root.getWorkspaceIndexFallback(modelData, index)
+                                                    : (loadedHasIcon ? (modelData?.name ?? "") : root.getWorkspaceIndex(modelData, index))
+                                            color: {
+                                                if (root.useCustomStyle && !isActive && !isUrgent && !isHovered) {
+                                                    return Theme.withAlpha(Theme.widgetTextColor, 0.6);
+                                                }
+                                                if (root.useCustomStyle && !isActive && !isUrgent && isHovered) {
+                                                    return Theme.withAlpha(Theme.widgetTextColor, 0.85);
+                                                }
+                                                return (isActive || isUrgent) ? Qt.rgba(Theme.widgetTextColor.r, Theme.widgetTextColor.g, Theme.widgetTextColor.b, 0.95) : isPlaceholder ? Theme.widgetTextColorAplha : Theme.widgetTextMedium
+                                            }
+                                            font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText) - 2
+                                            font.weight: (isActive && !isPlaceholder) ? Font.ExtraBold : Font.Normal
                                         }
                                     }
 
@@ -1718,14 +1802,19 @@ Item {
                                 id: columnLayout
                                 Column {
                                     spacing: 4
-                                    visible: loadedIcons.length > 0 || SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName || loadedHasIcon
+                                    visible: root.useCustomStyle || loadedIcons.length > 0 || SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName || loadedHasIcon
 
                                     DankIcon {
                                         visible: loadedHasIcon && loadedIconData?.type === "icon"
                                         anchors.horizontalCenter: parent.horizontalCenter
                                         name: loadedIconData?.value ?? ""
                                         size: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText)
-                                        color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
+                                        color: {
+                                            if (root.useCustomStyle && !isActive && !isUrgent) {
+                                                return Theme.withAlpha(Theme.surfaceText, 0.75);
+                                            }
+                                            return (isActive || isUrgent) ? Qt.rgba(Theme.widgetTextColor.r, Theme.widgetTextColor.g, Theme.widgetTextColor.b, 0.95) : isPlaceholder ? Theme.widgetTextColorAlpha : Theme.widgetTextMedium
+                                        }
                                         weight: (isActive && !isPlaceholder) ? 500 : 400
                                     }
 
@@ -1733,18 +1822,36 @@ Item {
                                         visible: loadedHasIcon && loadedIconData?.type === "text"
                                         anchors.horizontalCenter: parent.horizontalCenter
                                         text: loadedIconData?.value ?? ""
-                                        color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
+                                        color: {
+                                            if (root.useCustomStyle && !isActive && !isUrgent && !isHovered) {
+                                                return Theme.withAlpha(Theme.widgetTextColor, 0.75);
+                                            }
+                                            if (root.useCustomStyle && !isActive && !isUrgent && isHovered) {
+                                                    return Theme.withAlpha(Theme.widgetTextColor, 0.85);
+                                                }
+                                            return (isActive || isUrgent) ? Qt.rgba(Theme.widgetTextColor.r, Theme.widgetTextColor.g, Theme.widgetTextColor.b, 0.95) : isPlaceholder ? Theme.widgetTextColorAlpha : Theme.widgetTextMedium
+                                        }
                                         font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText)
-                                        font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
+                                        font.weight: (isActive && !isPlaceholder) ? Font.ExtraBold : Font.Normal
                                     }
 
                                     StyledText {
-                                        visible: ((SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName) && !loadedHasIcon) || (loadedHasIcon && SettingsData.showWorkspaceName && hasWorkspaceName)
+                                        visible: root.useCustomStyle || (((SettingsData.showWorkspaceIndex || SettingsData.showWorkspaceName) && !loadedHasIcon) || (loadedHasIcon && SettingsData.showWorkspaceName && hasWorkspaceName))
                                         anchors.horizontalCenter: parent.horizontalCenter
-                                        text: loadedHasIcon ? (root.isVertical ? (modelData?.name ?? "").charAt(0) : (modelData?.name ?? "")) : root.getWorkspaceIndex(modelData, index)
-                                        color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
-                                        font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText)
-                                        font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
+                                        text: root.useCustomStyle ? 
+                                                root.useRoman ? root.toRoman(root.getWorkspaceIndexFallback(modelData, index)) : root.getWorkspaceIndexFallback(modelData, index)
+                                                : (loadedHasIcon ? (modelData?.name ?? "") : root.getWorkspaceIndex(modelData, index))                                        
+                                        color: {
+                                            if (root.useCustomStyle && !isActive && !isUrgent && !isHovered) {
+                                                return Theme.withAlpha(Theme.widgetTextColor, 0.75);
+                                            }
+                                            if (root.useCustomStyle && !isActive && !isUrgent && isHovered) {
+                                                    return Theme.withAlpha(Theme.widgetTextColor, 0.85);
+                                                }
+                                            return (isActive || isUrgent) ? Qt.rgba(Theme.widgetTextColor.r, Theme.widgetTextColor.g, Theme.widgetTextColor.b, 0.95) : isPlaceholder ? Theme.widgetTextColorAlpha : Theme.widgetTextMedium
+                                        }
+                                        font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText) - 2
+                                        font.weight: (isActive && !isPlaceholder) ? Font.ExtraBold : Font.Normal
                                     }
 
                                     Repeater {
