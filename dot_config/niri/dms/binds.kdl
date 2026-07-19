@@ -177,8 +177,8 @@ binds {
     Mod+Equal { set-column-width "+5%"; }
 
     // mod+shift+加减号调整窗口高度
-    Mod+Shift+Minus { set-window-height "-5%"; }
-    Mod+Shift+Equal { set-window-height "+5%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
 
     // 切换浮动模式
     Mod+V   hotkey-overlay-title="切换浮动 Toggle floating"    { toggle-window-floating; }
@@ -186,15 +186,26 @@ binds {
     Mod+Shift+V hotkey-overlay-title=null { switch-focus-between-floating-and-tiling; }
     Mod+N hotkey-overlay-title="切换浮动聚焦 Change focus to floating" { switch-focus-between-floating-and-tiling; }
     Alt+grave hotkey-overlay-title=null { switch-focus-between-floating-and-tiling; }
-    Mod+Alt+N hotkey-overlay-title=null { switch-focus-between-floating-and-tiling; }
 
     // 截图相关
-    Mod+Alt+A  hotkey-overlay-title="选取区域截图 Select screenshot"  {spawn-sh "niri msg action screenshot --show-pointer false && pkill -f -USR1 screenshot-sound.sh";}
-    Mod+Alt+Ctrl+A  hotkey-overlay-title="截取聚焦窗口 Focus-window screenshot" { spawn-sh "niri msg action screenshot-window && pkill -f -USR1 screenshot-sound.sh"; }
-    Mod+Alt+Ctrl+Shift+A  hotkey-overlay-title="截取显示器 Monitor screenshot" { spawn-sh "niri msg action screenshot-screen --show-pointer false && pkill -f -USR1 screenshot-sound.sh"; }
-    Print  hotkey-overlay-title=null {spawn-sh "niri msg action screenshot --show-pointer false && pkill -f -USR1 screenshot-sound.sh";}
-    Ctrl+Print  hotkey-overlay-title=null { spawn-sh "niri msg action screenshot-window --show-pointer false && pkill -f -USR1 screenshot-sound.sh"; }
-    Shift+Print  hotkey-overlay-title=null { spawn-sh "niri msg action screenshot-screen --show-pointer false && pkill -f -USR1 screenshot-sound.sh"; }
+    // niri原生
+    // Mod+Alt+A  hotkey-overlay-title="选取区域截图 Select screenshot"  {spawn-sh "niri msg action screenshot --show-pointer false && pkill -f -USR1 screenshot-sound.sh";}
+    // Mod+Alt+Ctrl+A  hotkey-overlay-title="截取聚焦窗口 Focus-window screenshot" { spawn-sh "niri msg action screenshot-window && pkill -f -USR1 screenshot-sound.sh"; }
+    // Mod+Alt+Ctrl+Shift+A  hotkey-overlay-title="截取显示器 Monitor screenshot" { spawn-sh "niri msg action screenshot-screen --show-pointer false && pkill -f -USR1 screenshot-sound.sh"; }
+    // Print  hotkey-overlay-title=null {spawn-sh "niri msg action screenshot --show-pointer false && pkill -f -USR1 screenshot-sound.sh";}
+    // Ctrl+Print  hotkey-overlay-title=null { spawn-sh "niri msg action screenshot-window --show-pointer false && pkill -f -USR1 screenshot-sound.sh"; }
+    // Shift+Print  hotkey-overlay-title=null { spawn-sh "niri msg action screenshot-screen --show-pointer false && pkill -f -USR1 screenshot-sound.sh"; }
+
+    // dms 
+    Mod+Alt+A  hotkey-overlay-title="选取区域截图 Select screenshot"  {spawn-sh "dms screenshot && pkill -f -USR1 screenshot-sound.sh";}
+    Mod+Alt+Ctrl+A  hotkey-overlay-title="截取聚焦窗口 Focus-window screenshot" { spawn-sh "dms screenshot window && pkill -f -USR1 screenshot-sound.sh"; }
+    Mod+Alt+Ctrl+Shift+A  hotkey-overlay-title="截取显示器 Monitor screenshot" { spawn-sh "dms screenshot full && pkill -f -USR1 screenshot-sound.sh"; }
+    Mod+Ctrl+Alt+S hotkey-overlay-title="dms滚动截图" { spawn-sh "dms screenshot scroll && pkill -f -USR1 screenshot-sound.sh"; }
+    Print  hotkey-overlay-title=null {spawn-sh "dms screenshot && pkill -f -USR1 screenshot-sound.sh";}
+    Ctrl+Print  hotkey-overlay-title=null { spawn-sh "dms screenshot window && pkill -f -USR1 screenshot-sound.sh"; }
+    Shift+Print  hotkey-overlay-title=null { spawn-sh "dms screenshot full && pkill -f -USR1 screenshot-sound.sh"; }
+    Ctrl+Shift+Print { spawn-sh "dms screenshot scroll && pkill -f -USR1 screenshot-sound.sh"; }
+
     Mod+Shift+S  hotkey-overlay-title="截图后按下此键进行编辑 Edit the image after screenshot" { spawn-sh "wl-paste | satty -f -";}
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
@@ -208,7 +219,7 @@ binds {
     // === DMS 特有组件 ===
     // 任务管理器 (Mod+M)
     // Mod+M hotkey-overlay-title="Task Manager" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
-    Mod+M hotkey-overlay-title="Task Manager" { spawn "~/.config/niri/custom/toggle_processlist.sh"; }
+    Mod+M hotkey-overlay-title="Task Manager" { spawn "~/.config/niri/custom/scripts/toggle_processlist.sh"; }
     // 电源菜单 (Super+X)
     Super+X hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
     // 壁纸选择器 (Mod+Y，作为 Mod+Alt+W 的备用)
@@ -223,6 +234,8 @@ binds {
     Ctrl+Alt+Delete hotkey-overlay-title="Task Manager" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
     // 创建窗口规则 (Mod+Shift+W)
     Mod+Shift+W hotkey-overlay-title="Create window rule" { spawn "dms" "ipc" "call" "window-rules" "toggle"; }
+    // 打开通知窗口
+    Mod+Alt+N hotkey-overlay-title=null { spawn "dms" "ipc" "call" "notifications" "toggle"; }
 
     // === 媒体控制 ===
     XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "3"; }
@@ -289,7 +302,7 @@ binds {
     
     // Custom
     // 调色盘
-    Mod+Alt+P { spawn "dms" "ipc" "call" "color-picker" "open"; }
+    Mod+Alt+P { spawn "dms" "ipc" "call" "color-picker" "toggle"; }
     // hex取色器
     Mod+Alt+C { spawn "dms" "color" "pick" "-a"; }
     // rgb取色器

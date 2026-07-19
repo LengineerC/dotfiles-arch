@@ -326,7 +326,6 @@ blur {
 debug {
     honor-xdg-activation-with-invalid-serial
 
-
     // 防止niri运行在独显
     ignore-drm-device "/dev/dri/by-path/pci-0000:01:00.0-card"
     ignore-drm-device "/dev/dri/by-path/pci-0000:01:00.0-render"
@@ -385,8 +384,4 @@ include "custom/layout.kdl"
 include "custom/rule.kdl"
 include "custom/animations.kdl"
 // include "custom/cursor.kdl"
-
-// easyeffects自启动
-// spawn-at-startup "flatpak" "run" "com.github.wwmm.easyeffects"
-
 

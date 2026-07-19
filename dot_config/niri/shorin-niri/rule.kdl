@@ -5,14 +5,14 @@
 // 放进overview里的壁纸程序
 layer-rule{
     match namespace="dms:blurwallpaper"
-     place-within-backdrop true
+    place-within-backdrop true
 }
 // 以浮动模式打开imv（一个轻量化图片预览程序）且不自动聚焦
 window-rule {
     match app-id="imv"
     open-focused false
     open-floating true
-    }
+}
 //shorinclip剪贴板TUI 
 window-rule{
 	match app-id="shorinclip"
@@ -60,7 +60,7 @@ window-rule {
 }
 //快速终端和笔记
 window-rule {
-    match app-id="quickterminal"
+  match app-id="quickterminal"
 	open-floating true
 	default-floating-position x=20 y=20 relative-to="top"
 }
