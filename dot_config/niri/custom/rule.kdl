@@ -1,6 +1,8 @@
 window-rule {
     match app-id=r#"wps$"#
     match app-id="XnView"
+    match app-id="com.danklinux.dms" title="设置"
+
     open-floating true
 }
 
@@ -9,5 +11,6 @@ window-rule {
     match app-id="code"
     match app-id="firefox"
     match app-id="google-chrome"
+    
     open-maximized true
 }
