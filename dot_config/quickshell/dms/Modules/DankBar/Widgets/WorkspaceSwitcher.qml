@@ -1513,12 +1513,12 @@ Item {
                     y: root.isVertical ? (parent.height - height) / 2 : (root.widgetHeight - height) / 2
                     radius: root.useCustomStyle ? Theme.cornerRadius / 1.5 : Theme.cornerRadius
                     color: {
-                        if(root.useCustomStyle) return "transparent";
+                        // if(root.useCustomStyle) return "transparent";
 
                         if (root.useCustomStyle && !isActive && !isUrgent) {
                             return "transparent";
                         }
-                        return isActive ? activeColor : isUrgent ? urgentColor : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.withAlpha(unfocusedColor, 0.7) : isOccupied ? occupiedColor : unfocusedColor
+                        return isActive ? (root.useCustomStyle ? Theme.withAlpha(activeColor, 0.5) : activeColor) : isUrgent ? urgentColor : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.withAlpha(unfocusedColor, 0.7) : isOccupied ? occupiedColor : unfocusedColor
                     }
                     opacity: root.useCustomStyle ? (dragHandler.dragging ? 0.6 : 0.8) : (dragHandler.dragging ? 0.8 : 1.0)
 

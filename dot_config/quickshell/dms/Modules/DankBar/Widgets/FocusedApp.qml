@@ -242,7 +242,7 @@ BasePill {
                     anchors.verticalCenter: parent.verticalCenter
                     elide: Text.ElideRight
                     maximumLineCount: 1
-                    width: Math.min(implicitWidth, compactMode ? 180 : 80)
+                    width: Math.min(implicitWidth, compactMode ? 250 : 80)
                     visible: text.length > 0
                 }
 
