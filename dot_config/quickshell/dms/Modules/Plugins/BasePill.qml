@@ -242,9 +242,9 @@ Item {
                 layer.samples: 8
                 layer.effect: MultiEffect {
                     shadowEnabled: true
-                    shadowBlur: 0.5
-                    shadowColor: Qt.rgba(0, 0, 0, 0.40)
-                    shadowVerticalOffset: 3
+                    shadowBlur: 0.4
+                    shadowColor: Qt.rgba(0, 0, 0, 0.50)
+                    shadowVerticalOffset: 2
                     shadowHorizontalOffset: 1
                     autoPaddingEnabled: true
                 }

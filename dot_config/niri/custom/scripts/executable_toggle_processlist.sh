@@ -6,7 +6,9 @@ if ! niri msg windows | awk '
     /^$/ { if (has_title && has_appid) exit 0; has_title=0; has_appid=0 }
     END { if (has_title && has_appid) exit 0; exit 1 }
 '; then
+  dms ipc call processlist open 2>/dev/null
+else
   dms ipc call processlist close 2>/dev/null
 fi
 
-dms ipc call processlist focusOrToggle
+# dms ipc call processlist focusOrToggle
