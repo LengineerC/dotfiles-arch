@@ -14,12 +14,6 @@ binds {
     Shift+Print  hotkey-overlay-title=null { spawn-sh "dms screenshot full && pkill -f -USR1 screenshot-sound.sh"; }
     Ctrl+Shift+Print { spawn-sh "dms screenshot scroll && pkill -f -USR1 screenshot-sound.sh"; }
 
-    Mod+Shift+S  hotkey-overlay-title="截图后按下此键进行编辑 Edit the image after screenshot" { spawn-sh "wl-paste | satty -f -";}
-
-    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-    Mod+Shift+E hotkey-overlay-title="退出niri Quit niri" { quit; }
-
-
     // =========================================================
     // 第二部分：DMS 特有组件、工作区导航与媒体/亮度控制
     // =========================================================
@@ -60,20 +54,6 @@ binds {
     // === 亮度控制 ===
     XF86MonBrightnessUp allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; }
     XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; }
-
-    // === 工作区导航补充 (无冲突项) ===
-    Mod+Page_Down          { focus-workspace-down; }
-    Mod+Page_Up            { focus-workspace-up; }
-    Mod+U                  { focus-workspace-down; }
-    Mod+I                  { focus-workspace-up; }
-    
-    Mod+Ctrl+U             { move-column-to-workspace-down; }
-    Mod+Ctrl+I             { move-column-to-workspace-up; }
-    
-    Mod+Shift+Page_Down    { move-workspace-down; }
-    Mod+Shift+Page_Up      { move-workspace-up; }
-    Mod+Shift+U            { move-workspace-down; }
-    Mod+Shift+I            { move-workspace-up; }
 
     // 重命名工作区
     Ctrl+Shift+R hotkey-overlay-title="Rename Workspace" { spawn "dms" "ipc" "call" "workspace-rename" "open"; }

@@ -1,5 +1,5 @@
 layout {
-  gaps 15
+  gaps 10
   always-center-single-column
   empty-workspace-above-first
 

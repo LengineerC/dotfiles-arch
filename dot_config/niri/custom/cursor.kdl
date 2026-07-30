@@ -1,16 +1,13 @@
 cursor {
     // Set the XCursor theme. The cursor theme is loaded from
     // ~/.local/share/icons or /usr/share/icons.
-    xcursor-theme "Bibata-Modern-Amber"
-    xcursor-size 20
-
-    // Hide the cursor after this many milliseconds of inactivity.
+    xcursor-theme "Bibata-Modern-Ice"
+    xcursor-size 24
     hide-after-inactive-ms 15000
 
-    // Shake-to-enlarge: rapidly move the mouse back and forth to enlarge the cursor.
     shake-to-enlarge {
         // Uncomment to disable shake-to-enlarge.
-        off
+        // off
 
         // How much the cursor enlarges (multiplier).
         zoom-factor 5
@@ -25,6 +22,6 @@ cursor {
         // grow
 
         // Growth speed when grow is enabled.
-        grow-speed 0.01
+        grow-speed 0.10
     }
 }

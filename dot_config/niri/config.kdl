@@ -181,6 +181,16 @@ layer-rule {
     match namespace="^quickshell$"
     place-within-backdrop false
 }
+// Keep the clear wallpaper attached to every workspace.
+layer-rule {
+    match namespace="^quickshell:wallpaper$"
+    place-within-backdrop false
+}
+// Keep a second, blurred wallpaper stationary behind the overview.
+layer-rule {
+    match namespace="^quickshell:overview-wallpaper$"
+    place-within-backdrop true
+}
 overview {
     workspace-shadow {
         on
@@ -341,40 +351,17 @@ recent-windows {
     }
 }
 
-// 光标配置
-cursor {
-    hide-after-inactive-ms 15000
-
-    shake-to-enlarge {
-        // Uncomment to disable shake-to-enlarge.
-        // off
-
-        // How much the cursor enlarges (multiplier).
-        zoom-factor 5
-
-        // Shake speed threshold. Higher = less sensitive.
-        threshold 2000
-
-        // How long the enlarged cursor stays big after shaking stops, in milliseconds.
-        hold-duration-ms 300
-
-        // Uncomment to make the cursor gradually grow larger while continuously shaking.
-        // grow
-
-        // Growth speed when grow is enabled.
-        grow-speed 0.10
-    }
-}
-
 // Include dms files
 include "dms/colors.kdl"
 include "dms/layout.kdl"
 include "dms/alttab.kdl"
-include "dms/binds.kdl"
-include "dms/dms_binds.kdl"
-include "dms/outputs.kdl"
-include "dms/cursor.kdl"
-spawn-at-startup "dms" "run"
+include "custom/binds.kdl"
+// include "dms/dms_binds.kdl"
+include "lc_qs_niri/outputs.kdl"
+include "lc_qs_niri/binds.kdl"
+// include "dms/cursor.kdl"
+// spawn-at-startup "dms" "run"
+spawn-at-startup "qs" "-c" "/home/lengineerc/.config/quickshell/lc_qs_niri"
 spawn-at-startup "fcitx5" "-d"
 spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri & /usr/lib/xdg-desktop-portal-gnome"
 spawn-at-startup "~/.config/niri/shorin-niri/scripts/screenshot-sound.sh"
@@ -384,5 +371,4 @@ include "shorin-niri/supertab.kdl"
 include "custom/layout.kdl"
 include "custom/rule.kdl"
 include "custom/animations.kdl"
-// include "custom/cursor.kdl"
-
+include "custom/cursor.kdl"
