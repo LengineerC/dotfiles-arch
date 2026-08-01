@@ -9,6 +9,7 @@ sources=(
   # ".local/share/fcitx5/pinyin/dictionaries"
   # ".config/quickshell/dms"
   ".local/share/fcitx5/rime/default.yaml"
+  ".local/state/quickshell/lc_qs_niri"
   "Applications/easyeffects"
   "Scripts"
   ".config/kitty"

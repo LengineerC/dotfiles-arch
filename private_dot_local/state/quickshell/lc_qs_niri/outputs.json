@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "outputs": [
+    {
+      "name": "DP-9",
+      "matchName": "DP-9",
+      "make": "",
+      "model": "",
+      "serial": "",
+      "enabled": true,
+      "mode": "2560x1440@144.000",
+      "scale": 1.25,
+      "transform": "normal",
+      "automaticPosition": false,
+      "x": 2048,
+      "y": 0,
+      "vrrEnabled": false,
+      "maxBpc": 16
+    },
+    {
+      "name": "eDP-1",
+      "matchName": "eDP-1",
+      "make": "BOE",
+      "model": "NE156QHM-NY1",
+      "serial": "",
+      "enabled": false,
+      "mode": "2560x1440@165.000",
+      "scale": 1,
+      "transform": "normal",
+      "automaticPosition": false,
+      "x": 4096,
+      "y": 0,
+      "vrrEnabled": false,
+      "maxBpc": 16
+    },
+    {
+      "name": "DP-2",
+      "matchName": "HKC OVERSEAS LIMITED G27H2Max 0000000000001",
+      "make": "HKC OVERSEAS LIMITED",
+      "model": "G27H2Max",
+      "serial": "0000000000001",
+      "enabled": true,
+      "mode": "2560x1440@200.000",
+      "scale": 1.25,
+      "transform": "normal",
+      "automaticPosition": false,
+      "x": 2048,
+      "y": 0,
+      "vrrEnabled": false,
+      "maxBpc": 16
+    }
+  ]
+}
