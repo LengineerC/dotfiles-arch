@@ -1,0 +1,41 @@
+[mgr]
+prepend_keymap = [
+  { on = "H", run = "hidden toggle", desc = "Toggle the hidden state." },
+
+  { on = ["g", "r"], run = "cd /", desc = "Go to the root directory" }, 
+  { on = ["g", "h"], run = "cd ~", desc = "Go to the home directory" },
+
+  { on = "t", run = "tab_create", desc = "Create a new tab using the specified URL." },
+  { on = "T", run = "tab_create --current", desc = "Create a new tab using the current URL." },
+
+  { on = "1", run = "noop" },
+  { on = "2", run = "noop" },
+  { on = "3", run = "noop" },
+  { on = "4", run = "noop" },
+  { on = "5", run = "noop" },
+  { on = "6", run = "noop" },
+  { on = "7", run = "noop" },
+  { on = "8", run = "noop" },
+  { on = "9", run = "noop" },
+  { on = "0", run = "noop" },
+
+  { on = "<C-1>", run = "tab_switch 0" },
+  { on = "<C-2>", run = "tab_switch 1" },
+  { on = "<C-3>", run = "tab_switch 2" },
+  { on = "<C-4>", run = "tab_switch 3" },
+  { on = "<C-5>", run = "tab_switch 4" },
+  { on = "<C-6>", run = "tab_switch 5" },
+  { on = "<C-7>", run = "tab_switch 6" },
+  { on = "<C-8>", run = "tab_switch 7" },
+  { on = "<C-9>", run = "tab_switch 8" },
+  { on = "<C-0>", run = "tab_switch 9" },
+  
+  { on = "<C-w>", run = "close", desc = "Close current tab" },
+]
+
+[input]
+prepend_keymap = [
+  { on = "u", run = "undo", desc = "Undo the last operation" },
+  { on = "<C-r>", run = "redo", desc = "Redo the last operation" },
+]
+

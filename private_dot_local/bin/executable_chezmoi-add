@@ -3,6 +3,7 @@
 BASE_DIR="$HOME"
 
 sources=(
+  ".vimrc"
   ".zshrc"
   ".config/DankMaterialShell"
   ".config/niri"
@@ -15,6 +16,7 @@ sources=(
   ".config/fastfetch"
   ".config/nvim"
   ".config/neovide"
+  ".config/yazi"
   ".local/bin/chezmoi-add"
   ".local/bin/chezmoi-push"
   ".local/bin/kvm-passthrough"

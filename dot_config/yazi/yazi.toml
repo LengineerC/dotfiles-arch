@@ -1,0 +1,32 @@
+[mgr]
+ratio = [1, 4, 3]
+linemode = "size_and_mtime"
+
+[preview]
+max_width = 600
+max_height = 900
+cache_dir = ""
+image_filter = "triangle"
+image_quality = 75
+sixel_fraction = 15
+ueberzug_scale = 1
+ueberzug_offset = [0, 0, 0, 0]
+
+[opener]
+nvim = [
+    { run = 'nvim "$@"', block = true, desc = "Neovim" },
+]
+
+vim = [
+    { run = 'vim "$@"', block = true, desc = "Vim" },
+]
+
+vscode = [
+    { run = 'code "$@"', orphan = true, desc = "VS Code" },
+]
+
+[open]
+rules = [
+    { mime = "text/*", use = ["nvim", "vim", "vscode"] },
+    { mime = "folder/*", use = ["nvim", "vim", "vscode"] },
+]
