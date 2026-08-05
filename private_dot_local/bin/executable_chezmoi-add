@@ -20,6 +20,7 @@ sources=(
   ".local/bin/chezmoi-add"
   ".local/bin/chezmoi-push"
   ".local/bin/kvm-passthrough"
+  ".local/bin/quicksave"
 )
 
 for src in "${sources[@]}"; do
