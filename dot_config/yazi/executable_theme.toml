@@ -275,4 +275,25 @@ prepend_files = [
     { name = ".zshrc", text = "", fg = "#b8c6ea" },
 ]
 
+
+# theme.toml / flavor.toml
+[git]
+unknown_sign   = "?"
+modified_sign  = "M"
+added_sign     = "A"
+untracked_sign = "U"
+ignored_sign   = "I"
+deleted_sign   = "D"
+updated_sign   = "R"
+clean_sign     = "✓"
+
+unknown   = { fg = "#7f849c" }
+modified  = { fg = "#e5c07b", bold = true }
+added     = { fg = "#98c379", bold = true }
+untracked = { fg = "#61afef", bold = true }
+ignored   = { fg = "#5c6370", italic = true }
+deleted   = { fg = "#e06c75", bold = true }
+updated   = { fg = "#c678dd", bold = true }
+clean     = { fg = "#56b6c2" }
 # : ]]]
+

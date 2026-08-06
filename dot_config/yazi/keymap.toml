@@ -31,6 +31,12 @@ prepend_keymap = [
   { on = "<C-0>", run = "tab_switch 9" },
   
   { on = "<C-w>", run = "close", desc = "Close current tab" },
+
+  # mount.yazi
+  { on = "M", run = "plugin mount" },
+
+  # chmod.yazi
+  { on = ["c", "m"], run = "plugin chmod", desc = "Chmod on selected files" },
 ]
 
 [input]

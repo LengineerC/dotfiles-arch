@@ -1,0 +1,22 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "b9598e6"
+hash = "ce259b12c503a33a18a861052fa582b7"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:mount"
+rev = "b9598e6"
+hash = "46cbdc05596a3ecd730b288e28c7079d"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:chmod"
+rev = "b9598e6"
+hash = "5b1c276b75cae91cbbdbe7863f39a540"
+
+[[plugin.deps]]
+use = "AnirudhG07/rich-preview"
+rev = "7d616ad"
+hash = "d64feec9761392cbc250d199ab4b8a3a"
+
+[flavor]
+deps = []
