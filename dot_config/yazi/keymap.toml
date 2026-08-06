@@ -37,6 +37,9 @@ prepend_keymap = [
 
   # chmod.yazi
   { on = ["c", "m"], run = "plugin chmod", desc = "Chmod on selected files" },
+
+  # smart-enter.yazi
+  { on = "l", run = "plugin smart-enter", desc = "Enter the child directory, or open the file" },
 ]
 
 [input]
