@@ -13,6 +13,10 @@ ueberzug_scale = 1
 ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
+neovide = [
+    { run = 'neovide "$@"', block = true, desc = "Neovide" },
+]
+
 nvim = [
     { run = 'nvim "$@"', block = true, desc = "Neovim" },
 ]
@@ -27,8 +31,8 @@ vscode = [
 
 [open]
 rules = [
-    { mime = "text/*", use = ["nvim", "vim", "vscode"] },
-    { mime = "folder/*", use = ["nvim", "vim", "vscode"] },
+    { mime = "text/*", use = ["neovide", "nvim", "vim", "vscode"] },
+    { mime = "folder/*", use = ["neovide", "nvim", "vim", "vscode"] },
 ]
 
 [plugin]
