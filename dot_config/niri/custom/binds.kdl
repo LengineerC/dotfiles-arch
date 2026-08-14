@@ -64,6 +64,8 @@ binds {
     Mod+J     { focus-window-down; }
     Mod+K     { focus-window-up; }
     Mod+L     { focus-column-right; }
+    Mod+A     { focus-column-left; } 
+    Mod+D     { focus-column-right; } 
 
     // 移动colume（列）
     // super+ctrl+方向键
@@ -152,11 +154,8 @@ binds {
     Mod+Ctrl+WheelScrollUp   { move-column-left; }
 
     // mod+左右方括号 移动窗口（不是移动colume，是允许移动到另一个colume的窗口移动）
-    Mod+BracketLeft  { consume-or-expel-window-left; }
-    Mod+BracketRight { consume-or-expel-window-right; }
-    // mod+A/D 同效果
-    Mod+A hotkey-overlay-title="向左移动窗口 Move window to left between columes" { consume-or-expel-window-left; }
-    Mod+D hotkey-overlay-title="向右移动窗口 Move window to right between columes" { consume-or-expel-window-right; }
+    Mod+BracketLeft hotkey-overlay-title="向左移动窗口 Move window to left between columes" { consume-or-expel-window-left; }
+    Mod+BracketRight hotkey-overlay-title="向右移动窗口 Move window to right between columes" { consume-or-expel-window-right; }
 
     // mod+逗号/句号 把窗口合并或者踢出当前的colume
     Mod+Comma  { consume-window-into-column; }
