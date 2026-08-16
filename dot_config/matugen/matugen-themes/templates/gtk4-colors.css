@@ -17,63 +17,40 @@
   --headerbar-fg-color: {{colors.on_surface.default.hex}};
   --headerbar-border-color: {{colors.outline_variant.default.hex}};
   --headerbar-backdrop-color: {{colors.surface_dim.default.hex}};
+  --headerbar-shade-color: {{colors.shadow.default.rgba | set_alpha: 0.12}};
 
   --sidebar-bg-color: {{colors.surface_container.default.hex}};
   --sidebar-fg-color: {{colors.on_surface.default.hex}};
   --sidebar-border-color: {{colors.outline_variant.default.hex}};
   --sidebar-backdrop-color: {{colors.surface_container_low.default.hex}};
+  --sidebar-shade-color: {{colors.shadow.default.rgba | set_alpha: 0.12}};
 
   --card-bg-color: {{colors.surface_container_high.default.hex}};
   --card-fg-color: {{colors.on_surface.default.hex}};
+  --card-shade-color: {{colors.shadow.default.rgba | set_alpha: 0.12}};
   --popover-bg-color: {{colors.surface_container_high.default.hex}};
   --popover-fg-color: {{colors.on_surface.default.hex}};
+  --popover-shade-color: {{colors.shadow.default.rgba | set_alpha: 0.16}};
   --dialog-bg-color: {{colors.surface_container_high.default.hex}};
   --dialog-fg-color: {{colors.on_surface.default.hex}};
 
   --border-color: {{colors.outline_variant.default.hex}};
-  --shade-color: {{colors.shadow.default.rgba}};
+  /* libadwaita uses this for modal dimming.  The Material shadow role is
+   * opaque by itself, so passing it through unchanged blacks out the app. */
+  --shade-color: {{colors.shadow.default.rgba | set_alpha: 0.16}};
 }
 
-/* Direct rules keep the palette effective for applications that install
- * their own libadwaita stylesheet after the global color definitions. */
-window,
-window.background,
-.background {
-  color: var(--window-fg-color);
-  background-color: var(--window-bg-color);
+/* Do not paint every GtkWindow or .background node here: popovers use a
+ * transparent native surface around their rounded contents.  The standard
+ * libadwaita variables above color normal windows without filling that area. */
+
+/* Menu rows are neutral by default (their highlight is mixed from the text
+ * color), so opt them into the generated accent palette explicitly. */
+popover.menu modelbutton:hover,
+popover.menu modelbutton:selected {
+  background-color: color-mix(in srgb, var(--accent-color) 16%, transparent);
 }
 
-headerbar,
-.titlebar {
-  color: var(--headerbar-fg-color);
-  background-color: var(--headerbar-bg-color);
-}
-
-.view,
-gridview,
-listview,
-columnview,
-textview > text,
-iconview {
-  color: var(--view-fg-color);
-  background-color: var(--view-bg-color);
-}
-
-.navigation-sidebar,
-.sidebar {
-  color: var(--sidebar-fg-color);
-  background-color: var(--sidebar-bg-color);
-}
-
-popover > contents {
-  color: var(--popover-fg-color);
-  background-color: var(--popover-bg-color);
-}
-
-selection,
-.view:selected,
-gridview > child:selected,
-listview > row:selected {
-  color: var(--accent-fg-color);
-  background-color: var(--accent-bg-color);
+popover.menu modelbutton:active {
+  background-color: color-mix(in srgb, var(--accent-color) 24%, transparent);
 }

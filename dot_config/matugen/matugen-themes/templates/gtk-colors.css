@@ -57,9 +57,46 @@ flowbox > flowboxchild {
   background-color: @view_bg_color;
 }
 
-selection,
+/* adw-gtk3 normally makes file selections translucent.  Keep that behavior
+ * instead of painting an opaque accent rectangle over Thunar's icons. */
 treeview.view:selected,
-iconview.view:selected {
-  color: @accent_fg_color;
-  background-color: @accent_bg_color;
+iconview.view:selected,
+.view:selected,
+flowbox > flowboxchild:selected,
+.standard-view .view:selected {
+  color: @view_fg_color;
+  background-color: alpha(@accent_bg_color, 0.25);
+  background-image: none;
+}
+
+/* Thunar's icon and compact views are ExoIconView widgets.  Their drag
+ * selection is exposed as a rubberband node below .standard-view. */
+.standard-view rubberband,
+.standard-view .rubberband,
+.standard-view .view rubberband,
+.standard-view .view .rubberband {
+  border: 1px solid @accent_color;
+  background-color: alpha(@accent_bg_color, 0.20);
+  background-image: none;
+}
+
+/* GTK's menu hover color is derived from the foreground by default, so it
+ * looks neutral even after changing the accent palette. */
+menu menuitem:hover,
+.menu menuitem:hover,
+.context-menu menuitem:hover,
+popover.background modelbutton.flat:hover,
+popover.background .menuitem.button.flat:hover {
+  color: @popover_fg_color;
+  background-color: alpha(@accent_bg_color, 0.32);
+  background-image: none;
+}
+
+menu menuitem:active,
+.menu menuitem:active,
+.context-menu menuitem:active,
+popover.background modelbutton.flat:active,
+popover.background .menuitem.button.flat:active {
+  background-color: alpha(@accent_bg_color, 0.45);
+  background-image: none;
 }

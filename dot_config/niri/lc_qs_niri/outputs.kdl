@@ -12,9 +12,9 @@ output "DP-9" {
 output "eDP-1" {
     off
     mode "2560x1440@165.000"
-    scale 1.25
+    scale 1
     transform "normal"
-    position x=0 y=0
+    position x=4608 y=0
     max-bpc 16
 }
 
