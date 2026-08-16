@@ -17,6 +17,7 @@ sources=(
   ".config/nvim"
   ".config/neovide"
   ".config/yazi"
+  ".config/matugen"
   ".local/bin/chezmoi-add"
   ".local/bin/chezmoi-push"
   ".local/bin/kvm-passthrough"
