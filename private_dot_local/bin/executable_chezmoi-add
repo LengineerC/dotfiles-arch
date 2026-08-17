@@ -10,6 +10,10 @@ sources=(
   # ".local/share/fcitx5/pinyin/dictionaries"
   # ".config/quickshell/dms"
   ".local/share/fcitx5/rime/default.yaml"
+  ".local/share/fcitx5/rime/double_pinyin.schema.yaml"
+  ".local/share/fcitx5/rime/rime_ice.schema.yaml"
+  ".local/share/fcitx5/rime/wubi86_jidian.schema.yaml"
+
   "Applications/easyeffects"
   "Scripts"
   ".config/kitty"
