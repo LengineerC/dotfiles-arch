@@ -15,8 +15,7 @@ sources=(
   ".local/share/fcitx5/rime/wubi86_jidian.schema.yaml"
 
   "Applications/easyeffects"
-  "Scripts"
-  ".config/kitty"
+  ".config/kitty/kitty.conf"
   ".config/fastfetch"
   ".config/nvim"
   ".config/neovide"
