@@ -151,9 +151,7 @@ alias hotspot-on="sudo nmcli device wifi hotspot ifname wlan0 ssid Lens password
 alias hotspot-off="sudo nmcli connection down Hotspot"
 
 alias nvd="neovide"
-alias nv="nvim"
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+alias nvi="nvim"
 
 # chezmoi
 # alias cma="~/Scripts/chezmoi-add.sh"
