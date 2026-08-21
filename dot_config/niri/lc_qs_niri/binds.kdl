@@ -1,13 +1,14 @@
 binds {
     // 使用dmsshot-rs截图
-    Mod+Alt+A  hotkey-overlay-title="选取区域截图 Select screenshot"  { spawn "~/.local/bin/dmsshot-rs"; }
-    Mod+Alt+Ctrl+A  hotkey-overlay-title="截取聚焦窗口 Focus-window screenshot" { spawn "~/.local/bin/dmsshot-rs" "window"; }
-    Mod+Alt+Ctrl+Shift+A  hotkey-overlay-title="截取显示器 Monitor screenshot" { spawn "~/.local/bin/dmsshot-rs" "full"; }
-    Mod+Ctrl+Alt+S hotkey-overlay-title="dms滚动截图" { spawn "~/.local/bin/dmsshot-rs" "scroll"; }
-    Print  hotkey-overlay-title=null { spawn "~/.local/bin/dmsshot-rs"; }
-    Ctrl+Print  hotkey-overlay-title=null { spawn "~/.local/bin/dmsshot-rs" "window"; }
-    Shift+Print  hotkey-overlay-title=null { spawn "~/.local/bin/dmsshot-rs" "full"; }
-    Ctrl+Shift+Print { spawn "~/.local/bin/dmsshot-rs" "scroll"; }
+    Mod+Alt+A  hotkey-overlay-title="选取区域截图 Select screenshot"  { spawn "dmsshot-rs"; }
+    Mod+Alt+R hotkey-overlay-title="选区OCR" { spawn "dmsshot-rs" "ocr"; }
+    Mod+Alt+Ctrl+A  hotkey-overlay-title="截取聚焦窗口 Focus-window screenshot" { spawn "dmsshot-rs" "window"; }
+    Mod+Alt+Ctrl+Shift+A  hotkey-overlay-title="截取显示器 Monitor screenshot" { spawn "dmsshot-rs" "full"; }
+    Mod+Ctrl+Alt+S hotkey-overlay-title="滚动截图" { spawn "dmsshot-rs" "scroll"; }
+    Print  hotkey-overlay-title=null { spawn "dmsshot-rs"; }
+    Ctrl+Print  hotkey-overlay-title=null { spawn "dmsshot-rs" "window"; }
+    Shift+Print  hotkey-overlay-title=null { spawn "dmsshot-rs" "full"; }
+    Ctrl+Shift+Print { spawn "dmsshot-rs" "scroll"; }
     Mod+Shift+S  hotkey-overlay-title="截图后按下此键进行编辑 Edit the image after screenshot" { spawn-sh "wl-paste | satty -f -";}
 
     // IPC
@@ -15,6 +16,6 @@ binds {
     Mod+Z { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "launcher" "toggle"; }
     Mod+Alt+V { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "clipboard" "toggle"; }
     Mod+M { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "systemMonitor" "toggle"; }
-    Mod+Alt+R { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "notifications" "markAllRead"; }
+    // Mod+Alt+R { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "notifications" "markAllRead"; }
     Mod+Alt+B { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "leftsidebar" "toggle"; }
 }
