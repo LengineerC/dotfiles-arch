@@ -5,6 +5,7 @@ BASE_DIR="$HOME"
 sources=(
   ".vimrc"
   ".zshrc"
+  ".p10k.zsh"
   ".config/DankMaterialShell"
   ".config/niri"
   # ".local/share/fcitx5/pinyin/dictionaries"

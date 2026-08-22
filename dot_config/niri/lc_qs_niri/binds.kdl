@@ -1,14 +1,14 @@
 binds {
     // 使用dmsshot-rs截图
-    Mod+Alt+A  hotkey-overlay-title="选取区域截图 Select screenshot"  { spawn "dmsshot-rs"; }
-    Mod+Alt+D hotkey-overlay-title="选区OCR" { spawn "dmsshot-rs" "ocr" "--lang" "chi_sim+eng"; }
-    Mod+Alt+Ctrl+A  hotkey-overlay-title="截取聚焦窗口 Focus-window screenshot" { spawn "dmsshot-rs" "window"; }
-    Mod+Alt+Ctrl+Shift+A  hotkey-overlay-title="截取显示器 Monitor screenshot" { spawn "dmsshot-rs" "full"; }
-    Mod+Alt+S hotkey-overlay-title="滚动截图" { spawn "dmsshot-rs" "scroll"; }
-    Print  hotkey-overlay-title=null { spawn "dmsshot-rs"; }
-    Ctrl+Print  hotkey-overlay-title=null { spawn "dmsshot-rs" "window"; }
-    Shift+Print  hotkey-overlay-title=null { spawn "dmsshot-rs" "full"; }
-    Ctrl+Shift+Print { spawn "dmsshot-rs" "scroll"; }
+    Mod+Alt+A  hotkey-overlay-title="选取区域截图 Select screenshot"  { spawn "dmsshot-rs" "--be" "niri"; }
+    Mod+Alt+D hotkey-overlay-title="选区OCR" { spawn "dmsshot-rs" "ocr" "--be" "niri" "--lang" "chi_sim+eng"; }
+    Mod+Alt+Ctrl+A  hotkey-overlay-title="截取聚焦窗口 Focus-window screenshot" { spawn "dmsshot-rs" "--be" "niri" "window"; }
+    Mod+Alt+Ctrl+Shift+A  hotkey-overlay-title="截取显示器 Monitor screenshot" { spawn "dmsshot-rs" "--be" "niri" "full"; }
+    Mod+Alt+S hotkey-overlay-title="滚动截图" { spawn "dmsshot-rs" "--be" "niri" "scroll"; }
+    Print  hotkey-overlay-title=null { spawn "dmsshot-rs" "--be" "niri"; }
+    Ctrl+Print  hotkey-overlay-title=null { spawn "dmsshot-rs" "--be" "niri" "window"; }
+    Shift+Print  hotkey-overlay-title=null { spawn "dmsshot-rs" "--be" "niri" "full"; }
+    Ctrl+Shift+Print { spawn "dmsshot-rs" "--be" "niri" "scroll"; }
     Mod+Shift+S  hotkey-overlay-title="截图后按下此键进行编辑 Edit the image after screenshot" { spawn-sh "wl-paste | satty -f -";}
 
     // IPC
