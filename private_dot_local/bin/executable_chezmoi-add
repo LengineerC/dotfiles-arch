@@ -17,6 +17,7 @@ sources=(
 
   "Applications/easyeffects"
   ".config/kitty/kitty.conf"
+  ".config/kitty/hints_menu.py"
   ".config/fastfetch"
   ".config/nvim"
   ".config/neovide"
