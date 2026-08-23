@@ -82,6 +82,22 @@ progress_error  = { fg = "#ffb4ab", bg = "#323a42" }
 # : ]]]
 
 
+# : Git [[[
+
+[git]
+unknown_sign   = "? "
+ignored_sign   = "I "
+untracked_sign = "U "
+unstaged_sign  = "M "
+staged_sign    = "M "
+added_sign     = "A "
+deleted_sign   = "D "
+updated_sign   = "C "
+clean_sign     = ""
+
+# : ]]]
+
+
 # : Which [[[
 
 [which]

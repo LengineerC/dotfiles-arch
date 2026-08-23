@@ -14,25 +14,25 @@ ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
 neovide = [
-    { run = 'neovide "$@"', block = true, desc = "Neovide" },
+    { run = 'neovide "$s"', orphan = true, desc = "Neovide", for = "unix"},
 ]
 
 nvim = [
-    { run = 'nvim "$@"', block = true, desc = "Neovim" },
+    { run = 'nvim "$s"', block = true, desc = "Neovim", for = "unix"},
 ]
 
 vim = [
-    { run = 'vim "$@"', block = true, desc = "Vim" },
+    { run = 'vim "$s"', block = true, desc = "Vim", for = "unix"},
 ]
 
 vscode = [
-    { run = 'code "$@"', orphan = true, desc = "VS Code" },
+    { run = 'code "$s"', orphan = true, desc = "VS Code", for = "unix"},
 ]
 
 [open]
-rules = [
+prepend_rules = [
     { mime = "text/*", use = ["neovide", "nvim", "vim", "vscode"] },
-    { mime = "folder/*", use = ["neovide", "nvim", "vim", "vscode"] },
+    { url = "*/", use = ["neovide", "nvim", "vim", "vscode"] },
 ]
 
 [plugin]

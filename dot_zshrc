@@ -168,15 +168,37 @@ function unproxy(){
   echo "Proxy Disabled"
 }
 
+function kh() {
+    local regex
+
+    printf 'Regex: '
+    IFS= read -r regex
+
+    [[ -z "$regex" ]] && return
+
+    kitten @ action \
+        "kitten hints --type regex --regex $(printf %q "$regex") --program @"
+}
+
 # 开启热点
 alias hotspot-on="sudo nmcli device wifi hotspot ifname wlan0 ssid Lens password 12345678 band a"
 alias hotspot-off="sudo nmcli connection down Hotspot"
 
+# neovim
 alias nvd="neovide"
 alias nv="nvim"
 
+# system cmd alias
 alias grep="grep --color=auto"
 alias ...="cd ../../"
+
+# kitty
+alias icat="kitten icat"
+alias kclip="kitten clipboard"
+alias kdiff="kitten diff"
+alias kssh="kitten ssh"
+alias kuni="kitten unicode_input"
+alias ktrans="kitten transfer"
 
 # Android SDK
 export ANDROID_HOME=$HOME/Android/Sdk
