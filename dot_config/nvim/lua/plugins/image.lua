@@ -1,6 +1,7 @@
 return {
   "3rd/image.nvim",
   event = "VeryLazy",
+  build = false,
   config = function()
     require("image").setup({
       backend = "kitty", -- or "ueberzug" or "sixel"
