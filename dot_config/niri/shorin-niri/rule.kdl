@@ -62,7 +62,7 @@ window-rule {
 window-rule {
   match app-id="quickterminal"
 	open-floating true
-	default-floating-position x=20 y=20 relative-to="top"
+	default-floating-position x=0 y=20 relative-to="top"
 }
 window-rule{
     match app-id="bluetui"
