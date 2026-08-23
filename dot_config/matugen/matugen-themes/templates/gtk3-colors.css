@@ -1,0 +1,205 @@
+/*
+* GTK Colors
+* Generated with Matugen
+*/
+
+@define-color accent_color {{colors.primary_fixed_dim.default.hex}};
+@define-color accent_fg_color {{colors.on_primary_fixed.default.hex}};
+@define-color accent_bg_color {{colors.primary_fixed_dim.default.hex}};
+@define-color window_bg_color {{colors.surface_dim.default.hex}};
+@define-color window_fg_color {{colors.on_surface.default.hex}};
+@define-color headerbar_bg_color {{colors.surface_dim.default.hex}};
+@define-color headerbar_fg_color {{colors.on_surface.default.hex}};
+@define-color popover_bg_color {{colors.surface_dim.default.hex}};
+@define-color popover_fg_color {{colors.on_surface.default.hex}};
+@define-color view_bg_color {{colors.surface.default.hex}};
+@define-color view_fg_color {{colors.on_surface.default.hex}};
+@define-color card_bg_color {{colors.surface.default.hex}};
+@define-color card_fg_color {{colors.on_surface.default.hex}};
+@define-color sidebar_bg_color @window_bg_color;
+@define-color sidebar_fg_color @window_fg_color;
+@define-color sidebar_border_color @window_bg_color;
+@define-color sidebar_backdrop_color @window_bg_color;
+
+/* GTK 3 compatibility colors used by themes such as adw-gtk3. */
+@define-color theme_bg_color @window_bg_color;
+@define-color theme_fg_color @window_fg_color;
+@define-color theme_base_color @view_bg_color;
+@define-color theme_text_color @view_fg_color;
+@define-color theme_selected_bg_color @accent_bg_color;
+@define-color theme_selected_fg_color @accent_fg_color;
+@define-color headerbar_border_color {{colors.outline_variant.default.hex}};
+@define-color headerbar_backdrop_color @window_bg_color;
+@define-color sidebar_shade_color {{colors.outline_variant.default.hex}};
+@define-color card_shade_color {{colors.outline_variant.default.hex}};
+@define-color popover_shade_color {{colors.outline_variant.default.hex}};
+
+/* Chromium samples synthetic GTK widgets instead of reading the libadwaita
+ * palette names.  Keep its stronger semantic colors separate from the softer
+ * GTK selection color used by file managers. */
+@define-color chrome_accent_color {{colors.primary.default.hex}};
+@define-color chrome_border_color mix(@chrome_accent_color, @view_bg_color, 0.55);
+@define-color chrome_frame_bg_color mix(@chrome_accent_color, @window_bg_color, 0.84);
+
+/* Ensure GTK 3 applications consume the generated colors even when their
+ * theme does not reference every libadwaita compatibility color. */
+window,
+.background {
+  color: @window_fg_color;
+  background-color: @window_bg_color;
+}
+
+headerbar,
+.titlebar {
+  color: @headerbar_fg_color;
+  background-color: @headerbar_bg_color;
+}
+
+.view,
+treeview.view,
+iconview.view,
+textview.view,
+flowbox > flowboxchild {
+  color: @view_fg_color;
+  background-color: @view_bg_color;
+}
+
+/* adw-gtk3 normally makes file selections translucent.  Keep that behavior
+ * instead of painting an opaque accent rectangle over Thunar's icons. */
+treeview.view:selected,
+iconview.view:selected,
+.view:selected,
+flowbox > flowboxchild:selected,
+.standard-view .view:selected {
+  color: @view_fg_color;
+  background-color: alpha(@accent_bg_color, 0.25);
+  background-image: none;
+}
+
+/* Thunar's icon and compact views are ExoIconView widgets.  Their drag
+ * selection is exposed as a rubberband node below .standard-view. */
+.standard-view rubberband,
+.standard-view .rubberband,
+.standard-view .view rubberband,
+.standard-view .view .rubberband {
+  border: 1px solid @accent_color;
+  background-color: alpha(@accent_bg_color, 0.20);
+  background-image: none;
+}
+
+/* GTK's menu hover color is derived from the foreground by default, so it
+ * looks neutral even after changing the accent palette. */
+menu menuitem:hover,
+.menu menuitem:hover,
+.context-menu menuitem:hover,
+popover.background modelbutton.flat:hover,
+popover.background .menuitem.button.flat:hover {
+  color: @popover_fg_color;
+  background-color: alpha(@accent_bg_color, 0.32);
+  background-image: none;
+}
+
+menu menuitem:active,
+.menu menuitem:active,
+.context-menu menuitem:active,
+popover.background modelbutton.flat:active,
+popover.background .menuitem.button.flat:active {
+  background-color: alpha(@accent_bg_color, 0.45);
+  background-image: none;
+}
+
+/*
+ * Chromium integration
+ *
+ * Chromium does not directly consume adw-gtk3 color names.
+ * It samples colors from synthetic GTK widgets instead.
+ */
+
+/* Omnibox / location bar.  The ID selectors match Chromium's synthetic
+ * GtkEntry#entry and win over the neutral adw-gtk3 entry styling. */
+entry,
+entry#entry {
+  color: @view_fg_color;
+  background-color: @view_bg_color;
+  border-color: @chrome_border_color;
+}
+
+entry:focus,
+entry:focus-within,
+entry#entry:focus,
+entry#entry:focus-within {
+  border-color: @chrome_accent_color;
+  box-shadow: inset 0 0 0 1px alpha(@chrome_accent_color, 0.35);
+}
+
+/* Chromium takes ui::kColorAccent from a selected/focused GtkTreeView cell. */
+treeview.view treeview.view.cell:selected,
+treeview.view treeview.view.cell:selected:focus,
+treeview#treeview.view treeview#treeview.view.cell:selected,
+treeview#treeview.view treeview#treeview.view.cell:selected:focus {
+  color: @accent_fg_color;
+  background-color: @chrome_accent_color;
+  background-image: none;
+}
+
+/* Buttons are sampled for several separators/borders. */
+button {
+  border-color: {{colors.outline_variant.default.hex}};
+}
+
+/* Chrome settings switches are sampled from a toggle button, not GtkSwitch. */
+button#button.text-button.toggle {
+  color: @window_fg_color;
+  border-color: @chrome_border_color;
+  background-color: mix(@chrome_accent_color, @window_bg_color, 0.86);
+  background-image: none;
+}
+
+button#button.text-button.toggle:hover {
+  background-color: mix(@chrome_accent_color, @window_bg_color, 0.76);
+}
+
+button#button.text-button.toggle:checked {
+  color: @accent_fg_color;
+  border-color: @chrome_accent_color;
+  background-color: @chrome_accent_color;
+  background-image: none;
+}
+
+button#button.text-button.toggle:checked:hover,
+button#button.text-button.toggle:checked:active {
+  background-color: mix(@chrome_accent_color, @view_bg_color, 0.12);
+}
+
+/* Chrome derives its browser frame and inactive-tab hover states from this
+ * synthetic headerbar.  A lightly tinted frame keeps the active tab (which
+ * uses window_bg_color) visibly separate without recoloring other titlebars. */
+#headerbar.header-bar.titlebar {
+  color: @headerbar_fg_color;
+  background-color: @chrome_frame_bg_color;
+  background-image: none;
+}
+
+/* Native tab highlight/focus colors are sampled from GtkNotebook#notebook. */
+notebook#notebook #tab:hover {
+  background-color: alpha(@chrome_accent_color, 0.14);
+  background-image: none;
+}
+
+notebook#notebook #tab:checked {
+  color: @accent_fg_color;
+  background-color: alpha(@chrome_accent_color, 0.22);
+  background-image: none;
+}
+
+notebook#notebook #tab:checked:hover,
+notebook#notebook #tab:checked:focus {
+  background-color: alpha(@chrome_accent_color, 0.30);
+}
+
+/* Text-selection colors used by Chromium input fields. */
+textview.view text selection,
+entry selection {
+  color: @accent_fg_color;
+  background-color: @accent_bg_color;
+}

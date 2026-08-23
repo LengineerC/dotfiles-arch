@@ -24,8 +24,8 @@ clone_if_missing() {
   local name="$3"
 
   if [[ -e "$destination" ]]; then
-    if [[ -d "$destination" && -e "$destination/.git" ]] \
-      && git -C "$destination" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    if [[ -d "$destination" && -e "$destination/.git" ]] &&
+      git -C "$destination" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
       log "$name 已安装，跳过"
       return
     fi
@@ -51,6 +51,8 @@ main() {
     "$SYNTAX_HIGHLIGHTING_REPO" \
     "$CUSTOM_DIR/plugins/zsh-syntax-highlighting" \
     "zsh-syntax-highlighting"
+
+  sudo pacman -S --needed fzf
 
   log "Oh My Zsh 和插件安装完成"
   printf 'Oh My Zsh：%s\n' "$OMZ_DIR"

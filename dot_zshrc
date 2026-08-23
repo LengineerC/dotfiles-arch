@@ -93,10 +93,13 @@ plugins=(
   sudo
   history-substring-search
   zsh-autosuggestions
+  fzf
   zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
+
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 # User configuration
 
@@ -145,10 +148,6 @@ function clean-screenshots(){
   find /home/lengineerc/Pictures/Screenshots -mindepth 1 -exec rm -rf {} \;
 }
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -178,10 +177,6 @@ alias nv="nvim"
 
 alias grep="grep --color=auto"
 alias ...="cd ../../"
-
-# chezmoi
-# alias cma="~/Scripts/chezmoi-add.sh"
-# alias cmp="~/Scripts/chezmoi-push.sh"
 
 # Android SDK
 export ANDROID_HOME=$HOME/Android/Sdk

@@ -29,7 +29,7 @@
   [[ $ZSH_VERSION == (5.<1->*|<6->.*) ]] || return
 
   function prompt_zsh_logo() {
-    p10k segment -t '%F{178}󰆍%f %F{250}zsh%f'
+    p10k segment -t '%F{178}󰆍%f %F{179}zsh%f'
   }
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(

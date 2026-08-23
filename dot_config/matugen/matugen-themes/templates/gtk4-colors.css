@@ -35,6 +35,8 @@
   --dialog-fg-color: {{colors.on_surface.default.hex}};
 
   --border-color: {{colors.outline_variant.default.hex}};
+  --chrome-border-color: color-mix(in srgb, var(--accent-color) 45%, var(--view-bg-color));
+  --chrome-frame-bg-color: color-mix(in srgb, var(--accent-color) 16%, var(--window-bg-color));
   /* libadwaita uses this for modal dimming.  The Material shadow role is
    * opaque by itself, so passing it through unchanged blacks out the app. */
   --shade-color: {{colors.shadow.default.rgba | set_alpha: 0.16}};
@@ -53,4 +55,83 @@ popover.menu modelbutton:selected {
 
 popover.menu modelbutton:active {
   background-color: color-mix(in srgb, var(--accent-color) 24%, transparent);
+}
+
+/* Chromium GTK integration */
+entry,
+entry#entry {
+  color: var(--view-fg-color);
+  background-color: var(--view-bg-color);
+  border-color: var(--chrome-border-color);
+}
+
+entry:focus,
+entry:focus-within,
+entry#entry:focus,
+entry#entry:focus-within {
+  border-color: var(--accent-color);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-color) 35%, transparent);
+}
+
+treeview.view treeview.view.cell:selected,
+treeview.view treeview.view.cell:selected:focus,
+treeview#treeview.view treeview#treeview.view.cell:selected,
+treeview#treeview.view treeview#treeview.view.cell:selected:focus {
+  color: var(--accent-fg-color);
+  background-color: var(--accent-color);
+}
+
+button {
+  border-color: var(--border-color);
+}
+
+button#button.text-button.toggle {
+  color: var(--window-fg-color);
+  border-color: var(--chrome-border-color);
+  background-color: color-mix(in srgb, var(--accent-color) 14%, var(--window-bg-color));
+  background-image: none;
+}
+
+button#button.text-button.toggle:hover {
+  background-color: color-mix(in srgb, var(--accent-color) 24%, var(--window-bg-color));
+}
+
+button#button.text-button.toggle:checked {
+  color: var(--accent-fg-color);
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+  background-image: none;
+}
+
+button#button.text-button.toggle:checked:hover,
+button#button.text-button.toggle:checked:active {
+  background-color: color-mix(in srgb, var(--accent-color) 88%, var(--view-bg-color));
+}
+
+#headerbar.header-bar.titlebar {
+  color: var(--headerbar-fg-color);
+  background-color: var(--chrome-frame-bg-color);
+  background-image: none;
+}
+
+notebook#notebook #tab:hover {
+  background-color: color-mix(in srgb, var(--accent-color) 14%, transparent);
+  background-image: none;
+}
+
+notebook#notebook #tab:checked {
+  color: var(--accent-fg-color);
+  background-color: color-mix(in srgb, var(--accent-color) 22%, transparent);
+  background-image: none;
+}
+
+notebook#notebook #tab:checked:hover,
+notebook#notebook #tab:checked:focus {
+  background-color: color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
+textview.view text selection,
+entry selection {
+  color: var(--accent-fg-color);
+  background-color: var(--accent-bg-color);
 }
