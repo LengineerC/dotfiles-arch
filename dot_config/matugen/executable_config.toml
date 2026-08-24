@@ -30,7 +30,7 @@ post_hook = 'killall -SIGUSR1 btop && killall -SIGUSR2 btop &'
 # output_path = '~/.config/starship.toml'
 
 [templates.kitty]
-input_path = '~/.config/matugen/templates/kitty-colors-dark.conf'
+input_path = '~/.config/matugen/templates/kitty/kitty-colors-dark.conf'
 output_path = '~/.config/kitty/themes/Matugen.conf'
 post_hook = "kitty +kitten themes --reload-in=all Matugen"
 
