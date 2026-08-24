@@ -59,7 +59,6 @@
     # =========================[ Line #1 ]=========================
     zsh_logo
     status                  # exit code of the last command
-    command_execution_time  # duration of the last command
     background_jobs         # presence of background jobs
     direnv                  # direnv status (https://direnv.net/)
     asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
@@ -119,6 +118,7 @@
     taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
     per_directory_history   # Oh My Zsh per-directory-history local/global indicator
     # cpu_arch              # CPU architecture
+    command_execution_time  # duration of the last command
     time                    # current time
     # =========================[ Line #2 ]=========================
     newline
@@ -921,7 +921,8 @@
   typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_FOREGROUND=180
   # Default context color (no privileges, no SSH).
   typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=180
-
+  
+  # typeset -g POWERLEVEL9K_CONTEXT_ALWAYS_SHOW=true
   # Context format when running with privileges: bold user@hostname.
   typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%B%n@%m'
   # Context format when in SSH without privileges: user@hostname.
@@ -1741,8 +1742,8 @@
 
   # Core prompt: frequent information follows the terminal palette, while Git keeps a few
   # carefully chosen 256-color accents for its denser status display.
-  typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=cyan
-  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_FOREGROUND=cyan
+  typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=yellow
+  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_FOREGROUND=yellow
   typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=red
   typeset -g POWERLEVEL9K_DIR_FOREGROUND=blue
   typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=cyan
@@ -1841,35 +1842,49 @@
   typeset -g POWERLEVEL9K_TIME_FOREGROUND=silver
   typeset -g POWERLEVEL9K_IP_CONTENT_EXPANSION='$P9K_IP_IP${P9K_IP_RX_RATE:+ %F{green}⇣$P9K_IP_RX_RATE}${P9K_IP_TX_RATE:+ %F{yellow}⇡$P9K_IP_TX_RATE}'
 
-  # Alternate () and [] in the exact order in which segments occur. Newline and prompt_char stay
-  # undecorated so the input line remains clean. Prefix/suffix styling doesn't alter any icon or
-  # segment content.
+  # Use square brackets for identity, language and environment segments. Use parentheses for
+  # repository, task, connection and system-state segments. Classification is independent of
+  # display order, so hidden segments cannot change the decoration of their neighbors.
   function _p10k_adaptive_wrap() {
-    local segment=${(U)2}
-    local open close
-    if (( $1 )); then
-      open='['; close=']'
-    else
-      open='('; close=')'
-    fi
-    typeset -g "POWERLEVEL9K_${segment}_PREFIX=%F{grey}${open}"
-    typeset -g "POWERLEVEL9K_${segment}_SUFFIX=%F{grey}${close}"
+    local open=$1 close=$2 segment
+    shift 2
+    for segment; do
+      segment=${(U)segment}
+      typeset -g "POWERLEVEL9K_${segment}_PREFIX=%F{grey}${open}"
+      typeset -g "POWERLEVEL9K_${segment}_SUFFIX=%F{grey}${close}"
+    done
   }
 
-  local -a adaptive_segments
-  adaptive_segments=(
-    ${POWERLEVEL9K_LEFT_PROMPT_ELEMENTS:#(newline|prompt_char)}
-    ${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS:#newline}
+  local -a square_segments=(
+    os_icon context zsh_logo
+    direnv asdf virtualenv anaconda pyenv goenv nodenv nvm nodeenv
+    node_version go_version rust_version dotnet_version php_version laravel_version java_version
+    package rbenv rvm fvm luaenv jenv plenv perlbrew phpenv scalaenv haskell_stack
+    kubecontext terraform terraform_version aws aws_eb_env azure gcloud google_app_cred toolbox
+    ranger yazi nnn lf xplr vim_shell midnight_commander nix_shell chezmoi_shell cpu_arch
   )
-  local -i i
-  for (( i = 1; i <= $#adaptive_segments; ++i )); do
-    _p10k_adaptive_wrap $(( (i - 1) % 2 )) $adaptive_segments[i]
-  done
+  local -a round_segments=(
+    vcs status background_jobs nordvpn
+    disk_usage ram swap load todo timewarrior taskwarrior per_directory_history
+    public_ip vpn_ip ip proxy battery wifi
+  )
+  _p10k_adaptive_wrap '[' ']' $square_segments
+  _p10k_adaptive_wrap '(' ')' $round_segments
   unfunction _p10k_adaptive_wrap
 
-  # Transparent segments share a background, so p10k's subsegment separator is the correct
-  # dynamic connector. It appears only between segments that are actually visible.
-  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SUBSEGMENT_SEPARATOR='%F{grey}-%f'
+  # Display the directory as plain path text without an icon or surrounding brackets.
+  typeset -g POWERLEVEL9K_DIR_VISUAL_IDENTIFIER_EXPANSION=
+  typeset -g POWERLEVEL9K_DIR_PREFIX=
+  typeset -g POWERLEVEL9K_DIR_SUFFIX=' '
+
+  # Time values stay unboxed and use whitespace for separation instead.
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_PREFIX=' '
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_SUFFIX=''
+  typeset -g POWERLEVEL9K_TIME_PREFIX=' '
+  typeset -g POWERLEVEL9K_TIME_SUFFIX=
+
+  # Keep adjacent transparent segments flush, without a connector or whitespace.
+  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SUBSEGMENT_SEPARATOR=
 }
 
 

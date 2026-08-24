@@ -210,7 +210,7 @@
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=196
   # Default prompt symbol.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='>'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='$'
   # Prompt symbol in command vi mode.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='<'
   # Prompt symbol in visual vi mode.
@@ -1738,8 +1738,8 @@
   typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=grey
 
   # Core prompt. Every color in this TTY variant comes from the terminal's ANSI palette.
-  typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=cyan
-  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_FOREGROUND=cyan
+  typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=yellow
+  typeset -g POWERLEVEL9K_CONTEXT_{REMOTE,REMOTE_SUDO}_FOREGROUND=yellow
   typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=red
   typeset -g POWERLEVEL9K_DIR_FOREGROUND=blue
   typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=cyan
@@ -1812,35 +1812,49 @@
   typeset -g POWERLEVEL9K_TIME_FOREGROUND=silver
   typeset -g POWERLEVEL9K_IP_CONTENT_EXPANSION='$P9K_IP_IP${P9K_IP_RX_RATE:+ %F{green}v$P9K_IP_RX_RATE}${P9K_IP_TX_RATE:+ %F{yellow}^$P9K_IP_TX_RATE}'
 
-  # Alternate () and [] in the exact order in which segments occur. Newline and prompt_char stay
-  # undecorated so the input line remains clean. Prefix/suffix styling doesn't alter any icon or
-  # segment content.
+  # Use square brackets for identity, language and environment segments. Use parentheses for
+  # repository, task, connection and system-state segments. Classification is independent of
+  # display order, so hidden segments cannot change the decoration of their neighbors.
   function _p10k_adaptive_wrap() {
-    local segment=${(U)2}
-    local open close
-    if (( $1 )); then
-      open='['; close=']'
-    else
-      open='('; close=')'
-    fi
-    typeset -g "POWERLEVEL9K_${segment}_PREFIX=%F{grey}${open}"
-    typeset -g "POWERLEVEL9K_${segment}_SUFFIX=%F{grey}${close}"
+    local open=$1 close=$2 segment
+    shift 2
+    for segment; do
+      segment=${(U)segment}
+      typeset -g "POWERLEVEL9K_${segment}_PREFIX=%F{grey}${open}"
+      typeset -g "POWERLEVEL9K_${segment}_SUFFIX=%F{grey}${close}"
+    done
   }
 
-  local -a adaptive_segments
-  adaptive_segments=(
-    ${POWERLEVEL9K_LEFT_PROMPT_ELEMENTS:#(newline|prompt_char)}
-    ${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS:#newline}
+  local -a square_segments=(
+    os_icon context zsh_logo
+    direnv asdf virtualenv anaconda pyenv goenv nodenv nvm nodeenv
+    node_version go_version rust_version dotnet_version php_version laravel_version java_version
+    package rbenv rvm fvm luaenv jenv plenv perlbrew phpenv scalaenv haskell_stack
+    kubecontext terraform terraform_version aws aws_eb_env azure gcloud google_app_cred toolbox
+    ranger yazi nnn lf xplr vim_shell midnight_commander nix_shell chezmoi_shell cpu_arch
   )
-  local -i i
-  for (( i = 1; i <= $#adaptive_segments; ++i )); do
-    _p10k_adaptive_wrap $(( (i - 1) % 2 )) $adaptive_segments[i]
-  done
+  local -a round_segments=(
+    vcs status background_jobs nordvpn
+    disk_usage ram swap load todo timewarrior taskwarrior per_directory_history
+    public_ip vpn_ip ip proxy battery wifi
+  )
+  _p10k_adaptive_wrap '[' ']' $square_segments
+  _p10k_adaptive_wrap '(' ')' $round_segments
   unfunction _p10k_adaptive_wrap
 
-  # Transparent segments share a background, so p10k's subsegment separator is the correct
-  # dynamic connector. It appears only between segments that are actually visible.
-  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SUBSEGMENT_SEPARATOR='%F{grey}-%f'
+  # Display the directory as plain path text without an icon or surrounding brackets.
+  typeset -g POWERLEVEL9K_DIR_VISUAL_IDENTIFIER_EXPANSION=
+  typeset -g POWERLEVEL9K_DIR_PREFIX=
+  typeset -g POWERLEVEL9K_DIR_SUFFIX=' '
+
+  # Time values stay unboxed and use whitespace for separation instead.
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_PREFIX=' '
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_SUFFIX=''
+  typeset -g POWERLEVEL9K_TIME_PREFIX=' '
+  typeset -g POWERLEVEL9K_TIME_SUFFIX=
+
+  # Keep adjacent transparent segments flush, without a connector or whitespace.
+  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SUBSEGMENT_SEPARATOR=
 }
 
 
