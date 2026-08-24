@@ -54,7 +54,6 @@
     # =========================[ Line #1 ]=========================
     zsh_logo
     status                  # exit code of the last command
-    command_execution_time  # duration of the last command
     background_jobs         # presence of background jobs
     direnv                  # direnv status (https://direnv.net/)
     asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
@@ -115,6 +114,7 @@
     taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
     per_directory_history   # Oh My Zsh per-directory-history local/global indicator
     # cpu_arch              # CPU architecture
+    command_execution_time  # duration of the last command
     time                    # current time
     # =========================[ Line #2 ]=========================
     newline
@@ -222,8 +222,8 @@
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=196
   # Default prompt symbol.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_VIINS_CONTENT_EXPANSION='%F{242}╰─%F{76}$%f'
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_VIINS_CONTENT_EXPANSION='%F{242}╰─%F{196}$%f'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_VIINS_CONTENT_EXPANSION='%F{242}╰─%F{76}$%f'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_VIINS_CONTENT_EXPANSION='%F{242}╰─%F{196}$%f'
   # Command mode
   typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_VICMD_CONTENT_EXPANSION='%F{242}╰─%F{76}$%f'
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_VICMD_CONTENT_EXPANSION='%F{242}╰─%F{196}$%f'
@@ -260,7 +260,7 @@
   # Display anchor directory segments in bold.
   typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=true
   typeset -g POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-  typeset -g POWERLEVEL9K_DIR_MAX_LENGTH=80
+  typeset -g POWERLEVEL9K_DIR_MAX_LENGTH='40%'
   # Don't shorten directories that contain any of these files. They are anchors.
   local anchor_files=(
     .bzr
@@ -306,7 +306,7 @@
   # directory will be shortened only when prompt doesn't fit or when other parameters demand it
   # (see POWERLEVEL9K_DIR_MIN_COMMAND_COLUMNS and POWERLEVEL9K_DIR_MIN_COMMAND_COLUMNS_PCT below).
   # If set to `0`, directory will always be shortened to its minimum length.
-  typeset -g POWERLEVEL9K_DIR_MAX_LENGTH=80
+  typeset -g POWERLEVEL9K_DIR_MAX_LENGTH=40
   # When `dir` segment is on the last prompt line, try to shorten it enough to leave at least this
   # many columns for typing commands.
   typeset -g POWERLEVEL9K_DIR_MIN_COMMAND_COLUMNS=40
@@ -1150,7 +1150,7 @@
 
   ##############################[ node_version: node.js version ]###############################
   # Node version color.
-  typeset -g POWERLEVEL9K_NODE_VERSION_FOREGROUND=7
+  typeset -g POWERLEVEL9K_NODE_VERSION_FOREGROUND=10
   typeset -g POWERLEVEL9K_NODE_VERSION_BACKGROUND=2
   # Show node version only when in a directory tree containing package.json.
   typeset -g POWERLEVEL9K_NODE_VERSION_PROJECT_ONLY=true
@@ -1734,7 +1734,7 @@
   typeset -g POWERLEVEL9K_PROXY_FOREGROUND=7
   typeset -g POWERLEVEL9K_PROXY_BACKGROUND=12
   # Custom icon.
-  typeset -g POWERLEVEL9K_PROXY_VISUAL_IDENTIFIER_EXPANSION='󰖟 '
+  typeset -g POWERLEVEL9K_PROXY_VISUAL_IDENTIFIER_EXPANSION='󰖟'
   typeset -g POWERLEVEL9K_PROXY_CONTENT_EXPANSION='on'
   typeset -g POWERLEVEL9K_PROXY_ICON_BEFORE_CONTENT=false
 
@@ -1781,7 +1781,7 @@
 
   ####################################[ time: current time ]####################################
   # Current time color.
-  typeset -g POWERLEVEL9K_TIME_FOREGROUND=7
+  typeset -g POWERLEVEL9K_TIME_FOREGROUND=6
   typeset -g POWERLEVEL9K_TIME_BACKGROUND=13
   # Format for the current time: 09:51:02. See `man 3 strftime`.
   typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%H:%M:%S}'
