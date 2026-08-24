@@ -128,8 +128,8 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 if [[ $TERM == linux ]]; then
-  if [[ -r "$HOME/.p10k-ascii.zsh" ]]; then
-    source "$HOME/.p10k-ascii.zsh"
+  if [[ -r "$HOME/.p10k-tty.zsh" ]]; then
+    source "$HOME/.p10k-tty.zsh"
   else
     PROMPT='%n@%m: %~'$'\n''> '
     RPROMPT=''
