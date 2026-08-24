@@ -109,6 +109,7 @@
     # disk_usage            # disk usage
     # ram                   # free RAM
     # swap                  # used swap
+    proxy                 # system-wide http/https/ftp proxy
     todo                    # todo items (https://github.com/todotxt/todo.txt-cli)
     timewarrior             # timewarrior tracking status (https://timewarrior.net/)
     taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
@@ -119,7 +120,6 @@
     newline
     # ip                    # ip address and bandwidth usage for a specified network interface
     # public_ip             # public IP address
-    proxy                 # system-wide http/https/ftp proxy
     # battery               # internal battery
     # wifi                  # wifi speed
     # example               # example user-defined segment (see prompt_example function below)
@@ -1731,10 +1731,12 @@
 
   #########################[ proxy: system-wide http/https/ftp proxy ]##########################
   # Proxy color.
-  typeset -g POWERLEVEL9K_PROXY_FOREGROUND=8
-  typeset -g POWERLEVEL9K_PROXY_BACKGROUND=4
+  typeset -g POWERLEVEL9K_PROXY_FOREGROUND=7
+  typeset -g POWERLEVEL9K_PROXY_BACKGROUND=12
   # Custom icon.
   typeset -g POWERLEVEL9K_PROXY_VISUAL_IDENTIFIER_EXPANSION='󰖟 '
+  typeset -g POWERLEVEL9K_PROXY_CONTENT_EXPANSION='on'
+  typeset -g POWERLEVEL9K_PROXY_ICON_BEFORE_CONTENT=false
 
   ################################[ battery: internal battery ]#################################
   # Show battery in red when it's below this level and not connected to power supply.
