@@ -17,5 +17,6 @@ binds {
     Mod+Alt+V { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "clipboard" "toggle"; }
     Mod+M { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "systemMonitor" "toggle"; }
     Mod+Alt+R { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "notifications" "markAllRead"; }
+    Mod+Alt+N { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "notifications" "toggle"; }
     Mod+Alt+B { spawn "qs" "-c" "lc_qs_niri" "ipc" "call" "leftsidebar" "toggle"; }
 }

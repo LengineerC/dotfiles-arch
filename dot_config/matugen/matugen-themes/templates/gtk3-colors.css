@@ -55,6 +55,25 @@ headerbar,
   background-color: @headerbar_bg_color;
 }
 
+/* The generic .background rule above also matches tooltip windows.  Restore
+ * an explicit foreground/background pair so adw-gtk3's white tooltip text and
+ * dark text shadow cannot end up on the generated light window background. */
+tooltip,
+tooltip.background {
+  color: @popover_fg_color;
+  background-color: @popover_bg_color;
+  border: 1px solid @popover_shade_color;
+  background-image: none;
+  text-shadow: none;
+}
+
+tooltip *,
+tooltip label {
+  color: @popover_fg_color;
+  background-color: transparent;
+  text-shadow: none;
+}
+
 .view,
 treeview.view,
 iconview.view,
@@ -84,6 +103,37 @@ flowbox > flowboxchild:selected,
 .standard-view .view .rubberband {
   border: 1px solid @accent_color;
   background-color: alpha(@accent_bg_color, 0.20);
+  background-image: none;
+}
+
+/* Sidebar rows use the same accent pair as the rest of GTK.  Thunar exposes
+ * its shortcuts pane as a .sidebar GtkTreeView, with row cells below it. */
+.sidebar .view:not(:selected):hover,
+.view.sidebar:not(:selected):hover,
+treeview.view.sidebar:not(:selected):hover {
+  color: @sidebar_fg_color;
+  background-color: alpha(@accent_bg_color, 0.22);
+  background-image: none;
+  text-shadow: none;
+}
+
+.sidebar .view:selected,
+.sidebar .view:selected:focus,
+.view.sidebar:selected,
+.view.sidebar:selected:focus,
+treeview.view.sidebar:selected,
+treeview.view.sidebar:selected:focus {
+  color: @accent_fg_color;
+  background-color: @accent_bg_color;
+  background-image: none;
+  text-shadow: none;
+}
+
+.sidebar .view:selected:hover,
+.view.sidebar:selected:hover,
+treeview.view.sidebar:selected:hover {
+  color: @accent_fg_color;
+  background-color: mix(@accent_bg_color, @view_bg_color, 0.10);
   background-image: none;
 }
 
@@ -132,9 +182,9 @@ entry#entry:focus-within {
   box-shadow: inset 0 0 0 1px alpha(@chrome_accent_color, 0.35);
 }
 
-/* Chromium takes ui::kColorAccent from a selected/focused GtkTreeView cell. */
-treeview.view treeview.view.cell:selected,
-treeview.view treeview.view.cell:selected:focus,
+/* Chromium takes ui::kColorAccent from a selected/focused GtkTreeView cell.
+ * Keep the synthetic #treeview IDs: unscoped nested-tree selectors also hit
+ * real Thunar cells and create a dark-on-dark sidebar selection. */
 treeview#treeview.view treeview#treeview.view.cell:selected,
 treeview#treeview.view treeview#treeview.view.cell:selected:focus {
   color: @accent_fg_color;

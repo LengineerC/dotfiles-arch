@@ -52,7 +52,7 @@ animations {
 
     // === 缩放 ===
     window-open {
-        duration-ms 300
+        duration-ms 250
         curve "ease-out-cubic"
         custom-shader r"
             vec4 open_color(vec3 coords_geo, vec3 size_geo) {
@@ -68,7 +68,7 @@ animations {
     }
 
     window-close {
-        duration-ms 300
+        duration-ms 250
         curve "ease-out-cubic"
         custom-shader r"
             vec4 close_color(vec3 coords_geo, vec3 size_geo) {
