@@ -174,14 +174,22 @@
     typeset -g POWERLEVEL9K_EMPTY_LINE_RIGHT_PROMPT_FIRST_SEGMENT_START_SYMBOL='%{%}'
   fi
 
+  #   U+E0B6   LEFT HALF CIRCLE / round left
+  #   U+E0B4   RIGHT HALF CIRCLE / round right
+  #   U+E0B2   LEFTWARDS BLACK ARROW / powerline left
+  #   U+E0B0   RIGHTWARDS BLACK ARROW / powerline right
+  #   U+e0b5 Right half circle thin
+  #   U+e0b7 Left half circle thin
+  #   U+e0b1 Left soft divider
+  #   U+e0b3 Right soft divider
   # Separator between same-color segments on the left.
-  typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR='\uE0B5'
+  typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR='\uE0B1'
   # Separator between same-color segments on the right.
-  typeset -g POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR='\uE0B7'
+  typeset -g POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR='\uE0B3'
   # Separator between different-color segments on the left.
-  typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='\uE0B4'
+  typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='\uE0B0'
   # Separator between different-color segments on the right.
-  typeset -g POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR='\uE0B6'
+  typeset -g POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR='\uE0B2'
   # To remove a separator between two segments, add "_joined" to the second segment name.
   # For example: POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(os_icon context_joined)
 
