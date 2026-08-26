@@ -322,7 +322,9 @@ return {
 
       local function haskell_ghci_command()
         local root = haskell_root()
-        local ghci_dap = vim.fn.shellescape(ghci_dap_path)
+        -- haskell-debug-adapter 会自行拆分 ghciCmd，并不经过 shell。
+        -- 不能使用 shellescape()，否则单引号会成为 execvp 文件名的一部分。
+        local ghci_dap = ghci_dap_path
         local ghci_options = " -fprint-evld-with-show -ignore-dot-ghci"
 
         if vim.uv.fs_stat(vim.fs.joinpath(root, "stack.yaml")) and vim.fn.executable("stack") == 1 then
@@ -337,10 +339,10 @@ return {
           vim.fn.executable("cabal") == 1
           and (vim.uv.fs_stat(vim.fs.joinpath(root, "cabal.project")) or has_cabal_file(root))
         then
-          return "cabal exec -- " .. ghci_dap .. " --interactive -i -i" .. vim.fn.shellescape(root) .. ghci_options
+          return "cabal exec -- " .. ghci_dap .. " --interactive -i -i" .. root .. ghci_options
         end
 
-        return ghci_dap .. " --interactive -i -i" .. vim.fn.shellescape(root) .. ghci_options
+        return ghci_dap .. " --interactive -i -i" .. root .. ghci_options
       end
 
       dap.adapters.haskell = {
