@@ -294,6 +294,87 @@ return {
       }
       dap.configurations.cpp = dap.configurations.c
 
+      -- Haskell（Mason: haskell-debug-adapter + ghci-dap）
+      local haskell_dap_path = vim.fn.stdpath("data") .. "/mason/bin/haskell-debug-adapter"
+      local ghci_dap_path = vim.fn.stdpath("data") .. "/mason/bin/ghci-dap"
+
+      local function haskell_root()
+        local source = vim.api.nvim_buf_get_name(0)
+        source = source ~= "" and source or vim.uv.cwd()
+        return vim.fs.root(source, function(name)
+          return name == "stack.yaml"
+            or name == "cabal.project"
+            or name == "package.yaml"
+            or name == "hie.yaml"
+            or name == ".git"
+            or vim.fs.ext(name) == "cabal"
+        end) or vim.fs.dirname(source)
+      end
+
+      local function has_cabal_file(root)
+        for name, type in vim.fs.dir(root) do
+          if type == "file" and vim.fs.ext(name) == "cabal" then
+            return true
+          end
+        end
+        return false
+      end
+
+      local function haskell_ghci_command()
+        local root = haskell_root()
+        local ghci_dap = vim.fn.shellescape(ghci_dap_path)
+        local ghci_options = " -fprint-evld-with-show -ignore-dot-ghci"
+
+        if vim.uv.fs_stat(vim.fs.joinpath(root, "stack.yaml")) and vim.fn.executable("stack") == 1 then
+          return "stack ghci --with-ghc="
+            .. ghci_dap
+            .. " --test --no-load"
+            .. " --ghci-options -fprint-evld-with-show"
+            .. " --ghci-options -ignore-dot-ghci"
+        end
+
+        if
+          vim.fn.executable("cabal") == 1
+          and (vim.uv.fs_stat(vim.fs.joinpath(root, "cabal.project")) or has_cabal_file(root))
+        then
+          return "cabal exec -- " .. ghci_dap .. " --interactive -i -i" .. vim.fn.shellescape(root) .. ghci_options
+        end
+
+        return ghci_dap .. " --interactive -i -i" .. vim.fn.shellescape(root) .. ghci_options
+      end
+
+      dap.adapters.haskell = {
+        type = "executable",
+        command = haskell_dap_path,
+      }
+      dap.configurations.haskell = {
+        {
+          name = "Haskell: Debug Current File",
+          type = "haskell",
+          request = "launch",
+          workspace = haskell_root,
+          startup = function()
+            local file = vim.api.nvim_buf_get_name(0)
+            if file == "" then
+              vim.notify("请先保存当前 Haskell 文件", vim.log.levels.WARN)
+              return dap.ABORT
+            end
+            return file
+          end,
+          startupFunc = "",
+          startupArgs = "",
+          mainArgs = "",
+          stopOnEntry = false,
+          ghciCmd = haskell_ghci_command,
+          ghciEnv = vim.empty_dict(),
+          ghciPrompt = "H>>= ",
+          ghciInitialPrompt = "ghci>",
+          logFile = vim.fn.stdpath("state") .. "/haskell-dap.log",
+          logLevel = "WARNING",
+          forceInspect = false,
+        },
+      }
+
       -- Rust 配置
       dap.adapters.codelldb = {
         type = "server",

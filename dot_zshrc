@@ -195,3 +195,6 @@ alias ktrans="kitten transfer"
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/emulator
+
+# Haskell
+export PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
