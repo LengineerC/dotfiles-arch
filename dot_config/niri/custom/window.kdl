@@ -1,0 +1,14 @@
+window-rule {
+  geometry-corner-radius 22
+  clip-to-geometry true
+  tiled-state true
+  draw-border-with-background false
+}
+
+recent-windows {
+  highlight {
+    active-color "#004a76"
+    urgent-color "#ffb4ab"
+    corner-radius 10
+  }
+}

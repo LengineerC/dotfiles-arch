@@ -1,19 +1,58 @@
 layout {
-  gaps 10
+  gaps 13
+  background-color "transparent"
+  center-focused-column "never"
   always-center-single-column
   empty-workspace-above-first
 
-  // border {
-  //   width 2
-  // }
+  preset-column-widths {
+    proportion 0.33333
+    proportion 0.5
+    proportion 0.66667
+    proportion 0.85
+  }
+
+  preset-window-heights {
+    proportion 0.33333
+    proportion 0.5
+    proportion 0.66667
+  }
+
+  default-column-width { proportion 0.5; }
+
+  border {
+    off
+    width 2
+    active-color "#96cbff"
+    inactive-color "#8a919b"
+    urgent-color "#ffb4ab"
+  }
 
   focus-ring {
     width 2
+    active-color "#96cbff"
+    inactive-color "#8a919b"
+    urgent-color "#ffb4ab"
     active-gradient from="#ff0000aa" to="#00ff00ee" angle=-135 in="oklch longer hue"
   }
-}
 
-window-rule {
-  geometry-corner-radius 24
-  clip-to-geometry true
+  shadow {
+    softness 30
+    spread 10
+    offset x=0 y=5
+    color "#00000070"
+  }
+
+  tab-indicator {
+    active-color "#96cbff"
+    inactive-color "#8a919b"
+    urgent-color "#ffb4ab"
+  }
+
+  insert-hint {
+    color "#96cbff80"
+  }
+
+  struts {
+  }
 }
