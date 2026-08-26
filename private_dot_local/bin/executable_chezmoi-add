@@ -25,6 +25,8 @@ sources=(
   ".config/p10k"
   ".local/bin/chezmoi-add"
   ".local/bin/chezmoi-push"
+  ".local/bin/extract"
+  ".local/bin/clean"
   ".local/bin/kvm-passthrough"
   ".local/bin/quicksave"
 )

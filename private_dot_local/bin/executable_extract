@@ -1,0 +1,367 @@
+#!/bin/sh
+
+# Adapted from the Oh My Zsh "extract" plugin for use with POSIX /bin/sh.
+# Original project: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/extract
+
+usage() {
+  cat >&2 <<'EOF'
+Usage: extract.sh [-r|--remove] [--] file ...
+
+Extract one or more archives using a command selected from each file's
+extension. Each archive is unpacked into a directory based on its file name.
+
+Features:
+    - Extract multiple archives in one command.
+    - Preserve the original archive by default.
+    - Avoid overwriting an existing file or directory by choosing a unique
+      extraction directory name.
+    - Remove an unnecessary directory level when the archive contains only
+      one top-level item. Hidden files are included in this check.
+    - Continue with the remaining files if one archive cannot be extracted.
+
+Options:
+    -r, --remove    Remove each archive after it is unpacked successfully.
+    -h, --help      Show this help message.
+    --              Stop processing options. Use this before a file name that
+                    begins with a hyphen.
+
+Supported formats:
+    tar, tar.gz, tgz, tar.bz2, tbz, tbz2, tar.xz, txz, tar.lzma,
+    tar.zst, tar.lz, tar.lz4, tar.lrz, gz, bz2, xz, lrz, lz4,
+    lzma, Z, zip, rar, 7z, deb, rpm, cab, cpio, zpaq, and zlib.
+
+    ZIP-compatible formats such as jar, war, apk, whl, vsix, xpi, ipa,
+    ipsw, aar, crx, pk3, and pk4 are also supported.
+
+Notes:
+    The required extraction programs must be installed separately. Examples
+    include tar, unzip, 7z, unrar, zstd, cabextract, and rpm2cpio.
+
+Origin:
+    Adapted from the Oh My Zsh "extract" plugin for POSIX /bin/sh.
+    https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/extract
+
+Examples:
+    extract archive.tar.gz
+    extract one.zip two.tar.xz
+    extract --remove archive.7z
+    extract -- -archive.zip
+EOF
+}
+
+has_command() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+lowercase() {
+  LC_ALL=C tr '[:upper:]' '[:lower:]'
+}
+
+# Extract a tar archive into the current directory. This helper is also used
+# for the control and data members of Debian packages.
+extract_tar() {
+  tar_file=$1
+  tar_name=$(printf '%s' "${tar_file##*/}" | lowercase)
+
+  case $tar_name in
+  *.tar.gz | *.tgz)
+    if has_command pigz; then
+      pigz -dc "$tar_file" | tar xvf -
+    else
+      gzip -dc "$tar_file" | tar xvf -
+    fi
+    ;;
+  *.tar.bz2 | *.tbz | *.tbz2)
+    if has_command pbzip2; then
+      pbzip2 -dc "$tar_file" | tar xvf -
+    else
+      bzip2 -dc "$tar_file" | tar xvf -
+    fi
+    ;;
+  *.tar.xz | *.txz)
+    if has_command pixz; then
+      pixz -dc "$tar_file" | tar xvf -
+    else
+      xz -dc "$tar_file" | tar xvf -
+    fi
+    ;;
+  *.tar.lzma | *.tar.zma | *.tlz)
+    lzma -dc "$tar_file" | tar xvf -
+    ;;
+  *.tar.zst | *.tzst)
+    zstdcat "$tar_file" | tar xvf -
+    ;;
+  *.tar.lz)
+    lzip -dc "$tar_file" | tar xvf -
+    ;;
+  *.tar.lz4)
+    lz4 -q -c -d "$tar_file" | tar xvf -
+    ;;
+  *.tar)
+    tar xvf "$tar_file"
+    ;;
+  *)
+    printf "extract: '%s' is not a supported tar archive\n" "$tar_file" >&2
+    return 1
+    ;;
+  esac
+}
+
+extract_deb() {
+  deb_file=$1
+
+  mkdir control data || return 1
+  ar x "$deb_file" || return 1
+
+  set -- control.tar.*
+  if [ -f "$1" ]; then
+    control_archive=$1
+  else
+    printf "extract: '%s' has no control archive\n" "$deb_file" >&2
+    return 1
+  fi
+
+  set -- data.tar.*
+  if [ -f "$1" ]; then
+    data_archive=$1
+  else
+    printf "extract: '%s' has no data archive\n" "$deb_file" >&2
+    return 1
+  fi
+
+  deb_status=0
+  (CDPATH='' cd control && extract_tar "../$control_archive") || deb_status=1
+  (CDPATH='' cd data && extract_tar "../$data_archive") || deb_status=1
+  rm -f control.tar.* data.tar.* debian-binary
+  return "$deb_status"
+}
+
+extract_file() {
+  archive_path=$1
+  archive_name=$2
+  archive_name_lower=$3
+  output_name=${archive_name%.*}
+
+  case $archive_name_lower in
+  *.tar.gz | *.tgz | *.tar.bz2 | *.tbz | *.tbz2 | *.tar.xz | *.txz | \
+    *.tar.lzma | *.tar.zma | *.tlz | *.tar.zst | *.tzst | *.tar.lz | *.tar.lz4 | *.tar)
+    extract_tar "$archive_path"
+    ;;
+  *.tar.lrz)
+    if has_command lrzuntar; then
+      lrzuntar "$archive_path"
+    else
+      printf 'extract: lrzuntar is required for .tar.lrz files\n' >&2
+      return 1
+    fi
+    ;;
+  *.gz)
+    if has_command pigz; then
+      pigz -cd "$archive_path" >"$output_name"
+    else
+      gzip -cd "$archive_path" >"$output_name"
+    fi
+    ;;
+  *.bz2)
+    if has_command pbzip2; then
+      pbzip2 -dc "$archive_path" >"$output_name"
+    else
+      bzip2 -dc "$archive_path" >"$output_name"
+    fi
+    ;;
+  *.xz)
+    xz -dc "$archive_path" >"$output_name"
+    ;;
+  *.lrz)
+    if has_command lrunzip; then
+      lrunzip -q -o "$output_name" "$archive_path"
+    else
+      printf 'extract: lrunzip is required for .lrz files\n' >&2
+      return 1
+    fi
+    ;;
+  *.lz4)
+    lz4 -q -d "$archive_path" "$output_name"
+    ;;
+  *.lzma)
+    lzma -dc "$archive_path" >"$output_name"
+    ;;
+  *.z)
+    uncompress -c "$archive_path" >"$output_name"
+    ;;
+  *.zip | *.war | *.jar | *.ear | *.sublime-package | *.ipa | *.ipsw | *.xpi | *.apk | \
+    *.aar | *.whl | *.vsix | *.crx | *.pk3 | *.pk4)
+    unzip "$archive_path"
+    ;;
+  *.rar)
+    if has_command unrar; then
+      unrar x -ad "$archive_path"
+    elif has_command unar; then
+      unar -o . "$archive_path"
+    else
+      printf 'extract: cannot extract RAR files: install unrar or unar\n' >&2
+      return 1
+    fi
+    ;;
+  *.rpm)
+    rpm2cpio "$archive_path" | cpio --quiet -id
+    ;;
+  *.7z | *.7z.[0-9]* | *.pk7)
+    if has_command 7za; then
+      7za x "$archive_path"
+    elif has_command 7z; then
+      7z x "$archive_path"
+    else
+      printf 'extract: 7za or 7z is required for 7z files\n' >&2
+      return 1
+    fi
+    ;;
+  *.deb)
+    extract_deb "$archive_path"
+    ;;
+  *.zst)
+    zstdcat "$archive_path" >"$output_name"
+    ;;
+  *.cab | *.exe)
+    cabextract "$archive_path"
+    ;;
+  *.cpio | *.obscpio)
+    cpio -idmvF "$archive_path"
+    ;;
+  *.zpaq)
+    zpaq x "$archive_path"
+    ;;
+  *.zlib)
+    zlib-flate -uncompress <"$archive_path" >"$output_name"
+    ;;
+  *)
+    printf "extract: '%s' cannot be extracted\n" "$archive_name" >&2
+    return 1
+    ;;
+  esac
+}
+
+# Move a sole top-level item out of the staging directory. The three glob
+# patterns include normal and hidden entries without relying on zsh glob flags.
+flatten_directory() {
+  directory=$1
+  entry_count=0
+  only_entry=
+
+  for entry in "$directory"/.[!.]* "$directory"/..?* "$directory"/*; do
+    if [ ! -e "$entry" ] && [ ! -L "$entry" ]; then
+      continue
+    fi
+    entry_count=$((entry_count + 1))
+    if [ "$entry_count" -eq 1 ]; then
+      only_entry=$entry
+    else
+      break
+    fi
+  done
+
+  if [ "$entry_count" -eq 0 ]; then
+    rmdir "$directory" 2>/dev/null || :
+    return
+  fi
+
+  [ "$entry_count" -eq 1 ] || return
+  entry_name=${only_entry##*/}
+
+  if [ "$entry_name" = "$directory" ]; then
+    temporary_name="${directory}.tmp.$$"
+    temporary_number=0
+    while [ -e "$temporary_name" ] || [ -L "$temporary_name" ]; do
+      temporary_number=$((temporary_number + 1))
+      temporary_name="${directory}.tmp.$$.${temporary_number}"
+    done
+    mv "$only_entry" "$temporary_name" &&
+      rmdir "$directory" &&
+      mv "$temporary_name" "$directory"
+  elif [ ! -e "$entry_name" ] && [ ! -L "$entry_name" ]; then
+    mv "$only_entry" . && rmdir "$directory"
+  fi
+}
+
+remove_archive=false
+
+while [ "$#" -gt 0 ]; do
+  case $1 in
+  -r | --remove)
+    remove_archive=true
+    shift
+    ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  --)
+    shift
+    break
+    ;;
+  *)
+    break
+    ;;
+  esac
+done
+
+if [ "$#" -eq 0 ]; then
+  usage
+  exit 2
+fi
+
+start_directory=$(pwd -P) || exit 1
+overall_status=0
+
+for archive in "$@"; do
+  if [ ! -f "$archive" ]; then
+    printf "extract: '%s' is not a valid file\n" "$archive" >&2
+    overall_status=1
+    continue
+  fi
+
+  case $archive in
+  /*) archive_path=$archive ;;
+  *) archive_path=$start_directory/$archive ;;
+  esac
+
+  archive_name=${archive##*/}
+  archive_name_lower=$(printf '%s' "$archive_name" | lowercase)
+  extract_directory=${archive_name%.*}
+  extract_directory_lower=$(printf '%s' "$extract_directory" | lowercase)
+
+  case $extract_directory_lower in
+  *.tar) extract_directory=${extract_directory%????} ;;
+  esac
+  [ -n "$extract_directory" ] || extract_directory="${archive_name}.extracted"
+
+  if [ -e "$extract_directory" ] || [ -L "$extract_directory" ]; then
+    directory_base=$extract_directory
+    directory_number=0
+    extract_directory="${directory_base}-$$"
+    while [ -e "$extract_directory" ] || [ -L "$extract_directory" ]; do
+      directory_number=$((directory_number + 1))
+      extract_directory="${directory_base}-$$-${directory_number}"
+    done
+  fi
+
+  if ! mkdir "$extract_directory"; then
+    overall_status=1
+    continue
+  fi
+
+  printf 'extract: extracting to %s\n' "$extract_directory" >&2
+  if (CDPATH='' cd "$extract_directory" &&
+    extract_file "$archive_path" "$archive_name" "$archive_name_lower"); then
+    if [ "$remove_archive" = true ]; then
+      rm "$archive_path" || overall_status=1
+    fi
+  else
+    overall_status=1
+  fi
+
+  CDPATH='' cd "$start_directory" || exit 1
+  flatten_directory "$extract_directory"
+done
+
+exit "$overall_status"
