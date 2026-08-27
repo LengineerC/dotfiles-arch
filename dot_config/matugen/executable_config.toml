@@ -16,17 +16,17 @@ output_path = '~/.local/share/fcitx5/themes/Matugen/theme.conf'
 post_hook = '~/.config/matugen/templates/fcitx5/fcitx5.sh; fcitx5 -r & disown '
 
 [templates.kitty]
-input_path = '~/.config/matugen/templates/kitty/kitty-colors.conf'
+input_path = '~/.config/matugen/templates/kitty/kitty-colors-dark.conf'
 output_path = '~/.config/kitty/themes/Matugen.conf'
 post_hook = "kitty +kitten themes --reload-in=all Matugen"
 
 [templates.btop]
-input_path = '~/.config/matugen/templates/btop/btop.theme'
+input_path = '~/.config/matugen/templates/btop/btop-dark.theme'
 output_path = '~/.config/btop/themes/matugen.theme'
 post_hook = 'killall -SIGUSR1 btop 2>/dev/null || true; killall -SIGUSR2 btop 2>/dev/null || true'
 
 [templates.yazi]
-input_path = '~/.config/matugen/templates/yazi/yazi-theme.toml'
+input_path = '~/.config/matugen/templates/yazi/yazi-theme-dark.toml'
 output_path = '~/.config/yazi/theme.toml'
 
 # [templates.cava]

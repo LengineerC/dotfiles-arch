@@ -2,7 +2,7 @@
 require("config.lazy")
 
 vim.opt.clipboard = "unnamedplus"
-vim.o.guifont = "Maple Mono NL NF CN:h14"
+vim.o.guifont = "Maple Mono NL NF CN:h13"
 -- vim.opt.number = true
 -- vim.opt.relativenumber = false
 

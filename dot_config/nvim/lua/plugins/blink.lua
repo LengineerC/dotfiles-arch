@@ -4,6 +4,8 @@ return {
     keymap = {
       preset = "default",
 
+      ["<CR>"] = { "accept", "fallback" },
+
       ["<Tab>"] = {
         function(cmp)
           if cmp.is_visible() then
