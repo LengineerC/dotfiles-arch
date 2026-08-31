@@ -130,6 +130,15 @@ layer-rule {
     match namespace="^quickshell:overview-wallpaper$"
     place-within-backdrop true
 }
+// Blur the real workspace below Launchpad. Regular blur keeps the current
+// windows in the sample; xray would instead reveal the wallpaper buffer.
+layer-rule {
+    match namespace="^quickshell:launchpad-window-blur$"
+    background-effect {
+        xray false
+        blur true
+    }
+}
 overview {
     workspace-shadow {
         on
