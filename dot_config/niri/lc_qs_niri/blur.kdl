@@ -1,0 +1,8 @@
+// Blur tuning used by lc_qs_niri glass surfaces.
+// Kept outside config.kdl so the shell-specific effect is self-contained.
+blur {
+    passes 1
+    offset 4
+    noise 0.02
+    saturation 1.5
+}

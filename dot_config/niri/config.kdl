@@ -150,6 +150,22 @@ layer-rule {
         saturation 1.2
     }
 }
+layer-rule {
+    match namespace="^quickshell:left-sidebar$"
+    background-effect {
+        xray false
+        noise 0.02
+        saturation 1.2
+    }
+}
+layer-rule {
+    match namespace="^quickshell:notification-toasts$"
+    background-effect {
+        xray false
+        noise 0.02
+        saturation 1.2
+    }
+}
 overview {
     workspace-shadow {
         on
@@ -285,13 +301,6 @@ window-rule {
 //   }
 // }
 
-blur {
-  passes 1
-  offset 3
-  noise 0.02
-  saturation 1.5
-}
-
 debug {
     honor-xdg-activation-with-invalid-serial
 
@@ -315,6 +324,7 @@ include "custom/binds.kdl"
 // include "dms/dms_binds.kdl"
 include "lc_qs_niri/outputs.kdl"
 include "lc_qs_niri/binds.kdl"
+include "lc_qs_niri/blur.kdl"
 // include "dms/cursor.kdl"
 include "shorin-niri/rule.kdl"
 include "shorin-niri/supertab.kdl"
