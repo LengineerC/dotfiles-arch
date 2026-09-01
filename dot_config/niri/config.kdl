@@ -139,6 +139,17 @@ layer-rule {
         blur true
     }
 }
+// QuickShell requests blur only for the visible Bar and attached Panel
+// regions. Keep it non-xray so the glass samples the real windows below;
+// disabling the shell setting removes the requested blur region entirely.
+layer-rule {
+    match namespace="^quickshell:bar$"
+    background-effect {
+        xray false
+        noise 0.02
+        saturation 1.2
+    }
+}
 overview {
     workspace-shadow {
         on
