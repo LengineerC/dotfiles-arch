@@ -244,8 +244,37 @@ animations {
     
     window-movement {
       // spring damping-ratio=1.0 stiffness=500 epsilon=0.0001
-      duration-ms 333
-      curve "cubic-bezier" 0.65 0.5 0.35 0.95
+      duration-ms 450
+      // curve "cubic-bezier" 0.65 0.5 0.35 0.95
+
+      custom-shader r"
+          vec4 movement_color(vec3 coords_geo, vec3 size_geo) {
+              const float PI = 3.14159265;
+
+              // niri_move_from points from the destination back to the start,
+              // so negate it to get the actual direction of travel.
+              vec2 direction = -niri_move_from;
+              float distance = length(direction);
+              if (distance < 0.001) {
+                  vec3 coords_tex = niri_geo_to_tex * coords_geo;
+                  return texture2D(niri_tex, coords_tex.st);
+              }
+              direction /= distance;
+
+              float remaining = clamp(length(niri_move_offset) / distance, 0.0, 1.0);
+
+              // Keep both cross-axis edges fixed and push the middle forward.
+              float cross_axis = abs(direction.x) >= abs(direction.y)
+                               ? coords_geo.y : coords_geo.x;
+              float bulge = sin(clamp(cross_axis, 0.0, 1.0) * PI);
+              float strength = min(distance * 0.18, 96.0) * remaining;
+              vec2 displacement = direction * strength * bulge;
+              coords_geo.xy -= displacement / size_geo.xy;
+
+              vec3 coords_tex = niri_geo_to_tex * coords_geo;
+              return texture2D(niri_tex, coords_tex.st);
+          }
+      "
     }
     
     horizontal-view-movement {
