@@ -225,8 +225,11 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d_%H-%M-%S.png"
 //         spring damping-ratio=0.85 stiffness=800 epsilon=0.0001
 //     }
 // }
+
+// Mod键默认的类似MacOS的窗口视图
 grid-overview {
-    default-mod-action false
+    default-mod-action true
+    horizontal-gap 24
 }
 
 // Window rules let you adjust behavior for individual windows.
