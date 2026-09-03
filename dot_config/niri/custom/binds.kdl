@@ -240,4 +240,8 @@ binds {
     
     // 关闭显示器备用
     Mod+Shift+P { power-off-monitors; }
+
+    // fork 功能
+    // Mod+Backslash { minimize-application; }
+    // Mod+Shift+Backslash { unminimize-application; }
 }

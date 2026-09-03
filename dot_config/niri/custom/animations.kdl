@@ -242,7 +242,8 @@ animations {
       //   "
     }
     
-    window-movement {
+    // 原窗口移动动画(拖拽)
+    /-window-movement {
       // spring damping-ratio=1.0 stiffness=500 epsilon=0.0001
       duration-ms 450
       // curve "cubic-bezier" 0.65 0.5 0.35 0.95
@@ -276,6 +277,54 @@ animations {
           }
       "
     }
+
+    // === 果冻挤压移动 ===
+    window-movement {
+      duration-ms 500
+
+      custom-shader r"
+          vec4 movement_color(vec3 coords_geo, vec3 size_geo) {
+              const float PI = 3.14159265;
+
+              // 实际移动方向；niri_move_from 指向起点，因此需要取反。
+              vec2 direction = -niri_move_from;
+              float distance = length(direction);
+              if (distance < 0.001) {
+                  vec3 coords_tex = niri_geo_to_tex * coords_geo;
+                  return texture2D(niri_tex, coords_tex.st);
+              }
+              direction /= distance;
+
+              vec2 cross_direction = vec2(-direction.y, direction.x);
+              float progress = max(niri_progress, 0.0);
+              float remaining = clamp(length(niri_move_offset) / distance, 0.0, 1.0);
+
+              // 先沿移动方向挤压，再做一次反向回弹，最后平滑恢复原形。
+              float jelly = sin(progress * PI * 3.0) * remaining;
+              float squeeze = 0.015 * jelly;
+              float along_scale = clamp(1.0 - squeeze, 0.78, 1.18);
+              float cross_scale = clamp(1.0 + squeeze * 0.65, 0.88, 1.14);
+
+              // 在像素空间变形，避免不同宽高比下挤压程度失衡。
+              vec2 centered = (coords_geo.xy - vec2(0.5)) * size_geo.xy;
+              float along = dot(centered, direction);
+              float across = dot(centered, cross_direction);
+
+              // 固定朝向移动方向的前缘，使窗口整体向该方向挤压。
+              float leading_edge = 0.5 * (
+                  abs(direction.x) * size_geo.x +
+                  abs(direction.y) * size_geo.y
+              );
+              along = leading_edge + (along - leading_edge) / along_scale;
+              across /= cross_scale;
+
+              vec2 source = direction * along + cross_direction * across;
+              vec2 source_geo = source / size_geo.xy + vec2(0.5);
+              vec3 coords_tex = niri_geo_to_tex * vec3(source_geo, 1.0);
+              return texture2D(niri_tex, coords_tex.st);
+          }
+      "
+    }
     
     horizontal-view-movement {
       spring damping-ratio=1.0 stiffness=250 epsilon=0.00001
@@ -287,5 +336,9 @@ animations {
 
     overview-open-close {
       spring damping-ratio=1.0 stiffness=250 epsilon=0.00001
+    }
+
+    grid-overview-open-close {
+      spring damping-ratio=1.0 stiffness=350 epsilon=0.00001
     }
 }
