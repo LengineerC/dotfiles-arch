@@ -5,6 +5,10 @@ input_path = '~/.config/matugen/templates/niri.kdl'
 output_path = '~/.config/niri/matugen.kdl'
 post_hook = 'niri msg action load-config-file'
 
+[templates.nirimap]
+input_path = "~/.config/matugen/templates/nirimap.toml"
+output_path = "~/.config/nirimap/config.toml"
+
 [templates.pywalfox]
 input_path = '~/.config/matugen/templates/pywalfox-colors.json'
 output_path = '~/.cache/wal/colors.json'

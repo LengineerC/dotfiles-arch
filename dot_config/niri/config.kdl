@@ -166,6 +166,12 @@ layer-rule {
         saturation 1.2
     }
 }
+
+layer-rule {
+    match namespace="nirimap"
+    // Add any layer-specific rules here, such as opacity
+}
+
 overview {
     workspace-shadow {
         on
@@ -341,6 +347,7 @@ include "matugen.kdl"
 // spawn-at-startup "dms" "run"
 spawn-at-startup "qs" "-c" "/home/lengineerc/.config/quickshell/lc_qs_niri"
 spawn-at-startup "fcitx5" "-d"
+spawn-at-startup "nirimap"
 // spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri & /usr/lib/xdg-desktop-portal-gnome"
 spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
 spawn-sh-at-startup "systemctl --user start clipboard-sync.service"
