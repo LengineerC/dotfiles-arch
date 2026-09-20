@@ -16,7 +16,7 @@ cursor {
         threshold 2000
 
         // How long the enlarged cursor stays big after shaking stops, in milliseconds.
-        hold-duration-ms 300
+        hold-duration-ms 50
 
         // Uncomment to make the cursor gradually grow larger while continuously shaking.
         // grow
