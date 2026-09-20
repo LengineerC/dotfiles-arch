@@ -1,22 +1,22 @@
 layout {
     tab-indicator {
-        active-color   "#96cbff"
-        inactive-color "#8a919b"
-        urgent-color   "#ffb4ab"
+        active-color   "#00639b"
+        inactive-color "#707881"
+        urgent-color   "#ba1a1a"
     }
 
     insert-hint {
-        color "#96cbff80"
+        color "#00639b80"
     }
 }
 
 overview {
-	backdrop-color "#0d141b"
+	backdrop-color "#f7f9ff"
 }
 
 recent-windows {
     highlight {
-        active-color "#96cbff"
-        urgent-color "#ffb4ab"
+        active-color "#00639b"
+        urgent-color "#ba1a1a"
     }
 }

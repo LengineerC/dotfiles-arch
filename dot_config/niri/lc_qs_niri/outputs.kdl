@@ -10,7 +10,6 @@ output "DP-9" {
 }
 
 output "eDP-1" {
-    off
     mode "2560x1440@165.000"
     scale 1
     transform "normal"

@@ -8,7 +8,7 @@
       "3": "38;2;255;255;255",
       "4": "38;2;245;169;184",
       "5": "38;2;91;206;250"
-    },
+    }
     // "color": {
     //   "1": "38;2;227;28;27",
     //   "2": "38;2;255;203;45",
@@ -18,118 +18,121 @@
     // }
   },
   "display": {
-    // "separator": "\u001b[38;2;245;169;184m: \u001b[0m"
-    "separator": "  "
+    "separator": ""
   },
   "modules": [
-    // --- PC分组 ---
+    // ───────────── PC ─────────────
     {
-      "type": "host",
-      "key": "   PC",
-      "format": "{2}",
-      "keyColor": "38;2;91;206;250",
-      "outputColor": "38;2;91;206;250"
+      "type": "custom",
+      "format": "\u001b[38;2;91;206;250m╭──────  PC ──────╮\u001b[0m"
     },
     {
       "type": "cpu",
-      "key": " ├── 󰻠 CPU",
+      "key": "│ 󰻠 CPU       ",
       "keyColor": "38;2;91;206;250"
     },
     {
       "type": "memory",
-      "key": " ├── 󰍛 MEM",
+      "key": "│ 󰍛 MEM       ",
       "keyColor": "38;2;91;206;250"
     },
     {
       "type": "gpu",
-      "key": " ├── 󰢮 GPU",
+      "key": "│ 󰢮 GPU       ",
       "keyColor": "38;2;91;206;250"
     },
     {
       "type": "display",
-      "key": " ├── 󰍹 MON",
+      "key": "│ 󰍹 MON       ",
       "keyColor": "38;2;91;206;250"
     },
     {
       "type": "disk",
-      "key": " ├── 󰋊 DIS",
-      "keyColor": "38;2;91;206;250"
-    },
-    {
-      "type": "swap",
-      "key": " ├── 󰓡 SWP",
+      "key": "│ 󰋊 DIS       ",
       "keyColor": "38;2;91;206;250"
     },
     {
       "type": "battery",
-      "key": " └── 󰁹 BAT",
+      "key": "│ 󰁹 BAT       ",
       "keyColor": "38;2;91;206;250"
     },
-    // {
-    //   "type": "uptime",
-    //   "key": " └── 󰅐 UPT",
-    //   "keyColor": "38;2;91;206;250"
-    // },
+    {
+      "type": "custom",
+      "format": "\u001b[38;2;91;206;250m╰──────────────────╯\u001b[0m"
+    },
     "break",
-    // --- OS分组 ---38;2;245;169;184"
+    // ───────────── OS ─────────────
+    {
+      "type": "custom",
+      "format": "\u001b[38;2;245;169;184m╭──────  OS ──────╮\u001b[0m"
+    },
     {
       "type": "os",
-      "key": "   OS",
+      "key": "│  OS        ",
       "keyColor": "38;2;245;169;184",
-      "format": "{3} {12}",
-      "outputColor": "38;2;245;169;184"
+      "format": "{3} {12}"
     },
     {
       "type": "kernel",
-      "key": " ├── 󰖨 KER",
+      "key": "│ 󰖨 KER       ",
       "keyColor": "38;2;245;169;184"
     },
     {
       "type": "packages",
-      "key": " ├── 󰏖 PAK",
+      "key": "│ 󰏖 PAK       ",
       "keyColor": "38;2;245;169;184"
     },
     {
       "type": "title",
-      "key": " └── 󰭹 USR",
+      "key": "│ 󰭹 USR       ",
       "keyColor": "38;2;245;169;184",
       "format": "{user-name}@{host-name}"
     },
+    {
+      "type": "custom",
+      "format": "\u001b[38;2;245;169;184m╰──────────────────╯\u001b[0m"
+    },
     "break",
-    // --- WM分组 ---
+    // ───────────── WM ─────────────
+    {
+      "type": "custom",
+      "format": "\u001b[38;2;255;255;255m╭──────  WM ──────╮\u001b[0m"
+    },
     {
       "type": "wm",
-      "key": "   WM",
-      "format": "{1} ({2})",
+      "key": "│  WM        ",
       "keyColor": "38;2;255;255;255",
+      "format": "{1} ({2})",
       "outputColor": "38;2;255;255;255"
     },
     {
       "type": "cursor",
-      "key": " ├── 󰳽 CUR",
+      "key": "│ 󰳽 CUR       ",
       "keyColor": "38;2;255;255;255"
     },
     {
       "type": "de",
-      "key": " ├── 󰖲 DES",
+      "key": "│ 󰖲 DES       ",
       "keyColor": "38;2;255;255;255"
     },
     {
       "type": "shell",
-      "key": " ├── 󰞷 SHE",
+      "key": "│ 󰞷 SHE       ",
       "keyColor": "38;2;255;255;255"
     },
     {
       "type": "terminal",
-      "key": " ├── 󰞷 TER",
+      "key": "│  TER       ",
       "keyColor": "38;2;255;255;255"
     },
     {
-      // "type": "font",
-      // "key": " └── 󰛖 SFO",
-      "type": "terminalfont",
-      "key": " └── 󰛖 TFO",
+      "type": "font",
+      "key": "│ 󰛖 SFO       ",
       "keyColor": "38;2;255;255;255"
+    },
+    {
+      "type": "custom",
+      "format": "\u001b[38;2;255;255;255m╰──────────────────╯\u001b[0m"
     }
   ]
 }
