@@ -6,3 +6,14 @@ blur {
     noise 0.02
     saturation 1.5
 }
+
+// Spotlight supplies a rounded blur region from QML, so the compositor
+// effect follows the glass window instead of filling its transparent margins.
+layer-rule {
+    match namespace="^quickshell:spotlight$"
+    background-effect {
+        xray false
+        noise 0.02
+        saturation 1.2
+    }
+}
