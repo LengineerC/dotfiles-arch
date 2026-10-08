@@ -244,4 +244,9 @@ binds {
     // fork 功能
     // Mod+Backslash { minimize-application; }
     // Mod+Shift+Backslash { unminimize-application; }
+    
+    // 结合keyd实现的仿capslock切换输入法
+    XF86Tools {
+      spawn "fcitx5-remote" "-t"
+    }
 }

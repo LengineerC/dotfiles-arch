@@ -7,6 +7,19 @@ blur {
     saturation 1.5
 }
 
+// QuickShell's floating utility windows use large translucent surfaces.
+// Keep real window content visible behind them, but disable per-pass noise:
+// non-xray blur is rebuilt as either surface changes and changing noise over
+// such a large area reads as a full-window flash.
+window-rule {
+    match app-id="^org\\.quickshell$"
+    background-effect {
+        xray false
+        blur true
+        noise 0
+    }
+}
+
 // Spotlight supplies a rounded blur region from QML, so the compositor
 // effect follows the glass window instead of filling its transparent margins.
 layer-rule {
