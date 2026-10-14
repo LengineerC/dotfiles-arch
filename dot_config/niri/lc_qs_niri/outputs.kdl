@@ -21,6 +21,6 @@ output "HKC OVERSEAS LIMITED G27H2Max 0000000000001" {
     mode "2560x1440@200.000"
     scale 1
     transform "normal"
-    position x=2048 y=0
+    position x=2560 y=0
     max-bpc 16
 }

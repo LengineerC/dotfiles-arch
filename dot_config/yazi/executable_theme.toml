@@ -16,7 +16,7 @@ marker_selected = { fg = "#f5b0f1", bg = "#f5b0f1" }
 # Count
 count_copied   = { fg = "#36013b", bg = "#ffd6f9" }
 count_cut      = { fg = "#36013b", bg = "#ffd6f9" }
-count_selected = { fg = "#0c2c6c", bg = "#f5b0f1" }
+count_selected = { fg = "#0a2c6d", bg = "#f5b0f1" }
 
 # Border
 border_symbol = "│"
@@ -36,8 +36,8 @@ padding = { open = "█", close = "█" }
 # : Tabs [[[
 
 [tabs]
-active    = { fg = "#b2c5ff", bold = true, bg = "#121317" }
-inactive  = { fg = "#bdc6e5", bg = "#121317" }
+active    = { fg = "#b2c5ff", bold = true, bg = "#121318" }
+inactive  = { fg = "#bdc6e6", bg = "#121318" }
 sep_inner = { open = "[", close = "]" }
 
 # : ]]]
@@ -47,16 +47,16 @@ sep_inner = { open = "[", close = "]" }
 
 [mode]
 # Mode
-normal_main = { bg = "#b2c5ff", fg = "#0c2c6c", bold = true }
-normal_alt  = { bg = "#444650", fg = "#c5c6d2" }
+normal_main = { bg = "#b2c5ff", fg = "#0a2c6d", bold = true }
+normal_alt  = { bg = "#444650", fg = "#c4c6d2" }
 
 # Select mode
-select_main = { bg = "#bdc6e5", fg = "#273049", bold = true }
-select_alt  = { bg = "#444650", fg = "#c5c6d2" }
+select_main = { bg = "#bdc6e6", fg = "#273049", bold = true }
+select_alt  = { bg = "#444650", fg = "#c4c6d2" }
 
 # Unset mode
 unset_main = { bg = "#f5b0f1", fg = "#4f1a51", bold = true }
-unset_alt  = { bg = "#444650", fg = "#c5c6d2" }
+unset_alt  = { bg = "#444650", fg = "#c4c6d2" }
 
 # : ]]]
 
@@ -68,7 +68,7 @@ sep_left  = { open = "🭁", close = "🭠" }
 sep_right = { open = "🭁", close = "🭠" }
 
 # Permissions
-perm_type  = { fg = "#4f67ba" }
+perm_type  = { fg = "#4e66bc" }
 perm_write = { fg = "#e428d9" }
 perm_read  = { fg = "#ff2b12" }
 perm_exec  = { fg = "#ff3de3" }
@@ -104,7 +104,7 @@ clean_sign     = ""
 cols = 3
 mask = { bg = "#38393e" }
 cand = { fg = "#b2c5ff" }
-rest = { fg = "#0c2c6c" }
+rest = { fg = "#0a2c6d" }
 desc = { fg = "#e3e2e8" }
 separator = " ▶ "
 separator_style = { fg = "#e3e2e8" }
@@ -144,7 +144,7 @@ value  = { fg = "#e3e2e8" }
 # : Completion [[[
 
 [cmp]
-border = { fg = "#b2c5ff", bg = "#0c2c6c" }
+border = { fg = "#b2c5ff", bg = "#0a2c6d" }
 
 # : ]]]
 
@@ -164,7 +164,7 @@ hovered = { fg = "#ffd6f9", underline = true }
 [help]
 on     = { fg = "#e3e2e8" }
 run    = { fg = "#e3e2e8" }
-footer = { fg = "#273049", bg = "#bdc6e5" }
+footer = { fg = "#273049", bg = "#bdc6e6" }
 
 # : ]]]
 
