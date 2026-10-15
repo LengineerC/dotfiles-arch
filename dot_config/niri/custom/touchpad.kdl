@@ -1,0 +1,15 @@
+input {
+    touchpad {
+        tap
+        accel-speed 0.2
+        three-finger-drag true
+        natural-scroll
+    }
+}
+gestures {
+    workspace-switch-fingers 4
+    workspace-switch-axis "vertical"
+    view-scroll-fingers 0
+    overview-fingers 0
+    swipe-threshold 8
+}

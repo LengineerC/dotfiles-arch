@@ -343,6 +343,7 @@ include "custom/rule.kdl"
 include "custom/animations.kdl"
 include "custom/cursor.kdl"
 include "custom/window.kdl"
+include "custom/touchpad.kdl"
 include "matugen.kdl"
 
 // spawn-at-startup "dms" "run"
