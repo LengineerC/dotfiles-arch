@@ -2,7 +2,9 @@ input {
     touchpad {
         tap
         accel-speed 0.2
+        scroll-factor 0.3
         three-finger-drag true
+        three-finger-drag-mode "native"
         natural-scroll
     }
 }
@@ -12,4 +14,5 @@ gestures {
     view-scroll-fingers 0
     overview-fingers 0
     swipe-threshold 8
+    view-transition-max-speed 5
 }
