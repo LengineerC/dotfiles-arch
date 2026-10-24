@@ -76,9 +76,11 @@ install_wubi() {
   ((${#scheme_files[@]} > 0)) || die "极点五笔仓库中没有找到 wubi86* 或 pinyin* 文件"
   cp -f -- "${scheme_files[@]}" "$RIME_DIR/"
 
-  [[ -d "$source_dir/lua" ]] || die "极点五笔仓库中没有找到 lua 目录"
-  mkdir -p "$RIME_DIR/lua"
-  cp -a -- "$source_dir/lua/." "$RIME_DIR/lua/"
+  # 上游不一定提供 Lua 扩展；仅在目录存在时合并安装。
+  if [[ -d "$source_dir/lua" ]]; then
+    mkdir -p "$RIME_DIR/lua"
+    cp -a -- "$source_dir/lua/." "$RIME_DIR/lua/"
+  fi
 }
 
 main() {

@@ -192,9 +192,9 @@ alias kuni="kitten unicode_input"
 alias ktrans="kitten transfer"
 
 # Android SDK
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$ANDROID_HOME/emulator
+# export ANDROID_HOME=$HOME/Android/Sdk
+# export PATH=$PATH:$ANDROID_HOME/platform-tools
+# export PATH=$PATH:$ANDROID_HOME/emulator
 
 # Haskell
-export PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
+# export PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
