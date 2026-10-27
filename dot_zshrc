@@ -142,7 +142,6 @@ else
 fi
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
 function q(){
 	exit
 }
@@ -169,6 +168,18 @@ function proxy() {
 function unproxy(){
   unset http_proxy https_proxy all_proxy
   echo "Proxy Disabled"
+}
+
+# Codex
+function cx() {
+    local workspace="$HOME/Documents/Codex"
+
+    if [[ "$1" == "-C" ]]; then
+        command codex "$@" "--no-daemon"
+    else
+        mkdir -p "$workspace"
+        command codex -C "$workspace" "$@" "resume" "--no-daemon"
+    fi
 }
 
 # 开启热点
