@@ -174,11 +174,17 @@ function unproxy(){
 function cx() {
     local workspace="$HOME/Documents/Codex"
 
-    if [[ "$1" == "-C" ]]; then
-        command codex "$@" "--no-daemon"
-    else
+    mkdir -p "$workspace"
+    command codex -C "$workspace" "$@" "resume" "--no-daemon"
+}
+function cxnd() {
+    local workspace="$HOME/Documents/Codex"
+
+    if (( $# == 0 )); then
         mkdir -p "$workspace"
-        command codex -C "$workspace" "$@" "resume" "--no-daemon"
+        command codex -C "$workspace" resume --no-daemon
+    else
+        command codex "$@" --no-daemon
     fi
 }
 
