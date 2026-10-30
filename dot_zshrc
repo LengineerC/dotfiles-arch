@@ -142,71 +142,15 @@ else
 fi
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-function q(){
-	exit
-}
-
-function clean-screenshots(){
-  find /home/lengineerc/Pictures/Screenshots -mindepth 1 -exec rm -rf {} \;
-}
 
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 export PATH="$HOME/.local/bin:$PATH"
 
-# KVM显卡直通和内存大页切换
-alias vfio-start="sudo $HOME/.local/bin/kvm-passthrough start"
-alias vfio-stop="sudo $HOME/.local/bin/kvm-passthrough stop"
+# 加载可跨设备同步的自定义函数
+[[ ! -r "$HOME/.config/zsh/functions.zsh" ]] || source "$HOME/.config/zsh/functions.zsh"
 
-function proxy() {
-  local port="${1:-7890}"
-  export http_proxy=http://127.0.0.1:${port};
-  export https_proxy=http://127.0.0.1:${port};
-  export all_proxy=socks5://127.0.0.1:${port};
-  echo "Proxy Enabled on port ${port}"
-}
-
-function unproxy(){
-  unset http_proxy https_proxy all_proxy
-  echo "Proxy Disabled"
-}
-
-# Codex
-function cx() {
-    local workspace="$HOME/Documents/Codex"
-
-    mkdir -p "$workspace"
-    command codex -C "$workspace" "$@" "resume" "--no-daemon"
-}
-function cxnd() {
-    local workspace="$HOME/Documents/Codex"
-
-    if (( $# == 0 )); then
-        mkdir -p "$workspace"
-        command codex -C "$workspace" resume --no-daemon
-    else
-        command codex "$@" --no-daemon
-    fi
-}
-
-# 开启热点
-alias hotspot-on="sudo nmcli device wifi hotspot ifname wlan0 ssid Lens password 12345678 band a"
-alias hotspot-off="sudo nmcli connection down Hotspot"
-
-# neovim
-alias nvd="neovide"
-alias nv="nvim"
-
-# system cmd alias
-alias grep="grep --color=auto"
-alias ...="cd ../../"
-
-# kitty
-alias icat="kitten icat"
-alias kclip="kitten clipboard"
-alias kdiff="kitten diff"
-alias kssh="kitten ssh"
-alias kuni="kitten unicode_input"
-alias ktrans="kitten transfer"
+# 加载可跨设备同步的自定义别名
+[[ ! -r "$HOME/.config/zsh/aliases.zsh" ]] || source "$HOME/.config/zsh/aliases.zsh"
 
 # Android SDK
 # export ANDROID_HOME=$HOME/Android/Sdk
